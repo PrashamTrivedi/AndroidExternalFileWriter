@@ -15,6 +15,8 @@ How does it work
 
 4. If you want to create a subfolder use suitable createSubDirectory variants.
 
+5. If anything is wrong with external storage, like storage not mounted, corrupt,  shared as mass storage, not enough space available, or even trying to create a library already created. The class will throw ExternalFileWriterException with the message stating what happened.
+
 
 Description of Variants
 =========================
