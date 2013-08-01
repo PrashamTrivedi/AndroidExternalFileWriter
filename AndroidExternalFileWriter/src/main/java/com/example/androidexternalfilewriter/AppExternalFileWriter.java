@@ -403,6 +403,62 @@ public class AppExternalFileWriter {
 	}
 
 	/**
+	 * Writes data to the file. The file will be created in the folder name same as app.
+	 * <p> Name of the file will be the timestamp.extension </p>
+	 *
+	 * @param extension
+	 * 		extension of the file, pass null if you don't want to have extension.
+	 * @param data
+	 * 		data to write
+	 *
+	 * @throws ExternalFileWriterException
+	 * 		if external storage is not available or free space is
+	 * 		less than size of the data
+	 */
+	public void writeDataToTimeStampedFile(String extension, byte[] data) throws
+			ExternalFileWriterException {
+		if (isExternalStorageAvailable(true)) {
+			getAppDirectory();
+
+			String fileExtension = (TextUtils.isEmpty(extension)) ? "" : "." + extension;
+			String fileName = System.currentTimeMillis() + fileExtension;
+
+			File file = createFile(fileName, this.appDirectory);
+
+			writeDataToFile(file, data);
+		}
+	}
+
+	/**
+	 * Writes data to the file. The file will be created in the folder name same as app.
+	 * <p> Name of the file will be the timestamp.extension </p>
+	 *
+	 * @param parent
+	 * 		parent directory path
+	 * @param extension
+	 * 		extension of the file, pass null if you don't want to have extension.
+	 * @param data
+	 * 		data to write
+	 *
+	 * @throws ExternalFileWriterException
+	 * 		if external storage is not available or free space is
+	 * 		less than size of the data
+	 */
+	public void writeDataToTimeStampedFile(File parent, String extension, byte[] data) throws
+			ExternalFileWriterException {
+		if (isExternalStorageAvailable(true)) {
+			getAppDirectory();
+
+			String fileExtension = (TextUtils.isEmpty(extension)) ? "" : "." + extension;
+			String fileName = System.currentTimeMillis() + fileExtension;
+
+			File file = createFile(fileName, parent);
+
+			writeDataToFile(file, data);
+		}
+	}
+
+	/**
 	 * Exception to report back developer about media state or storage state if writing is not
 	 * possible
 	 */
