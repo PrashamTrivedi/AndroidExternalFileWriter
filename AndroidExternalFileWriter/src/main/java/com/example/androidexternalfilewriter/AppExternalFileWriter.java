@@ -211,7 +211,7 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Creates subdirectory in application folder
+	 * Creates subdirectory in application directory
 	 *
 	 * @param directoryName
 	 * 		name of subdirectory
@@ -233,7 +233,7 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Creates subdirectory in application folder
+	 * Creates subdirectory in application directory
 	 *
 	 * @param parent
 	 * @param directoryName
@@ -306,7 +306,7 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Writes data to the file. The file will be created in the folder name same as app.
+	 * Writes data to the file. The file will be created in the directory name same as app.
 	 *
 	 * @param fileName
 	 * 		name of the file
@@ -328,7 +328,7 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Writes data to the file. The file will be created in the folder name same as app.
+	 * Writes data to the file. The file will be created in the directory name same as app.
 	 *
 	 * @param fileName
 	 * 		name of the file
@@ -374,7 +374,7 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Writes data to the file. The file will be created in the folder name same as app.
+	 * Writes data to the file. The file will be created in the directory name same as app.
 	 * <p> Name of the file will be the timestamp.extension </p>
 	 *
 	 * @param extension
@@ -401,7 +401,7 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Writes data to the file. The file will be created in the folder name same as app.
+	 * Writes data to the file. The file will be created in the directory name same as app.
 	 * <p> Name of the file will be the timestamp.extension </p>
 	 *
 	 * @param parent
@@ -430,7 +430,7 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Writes data to the file. The file will be created in the folder name same as app.
+	 * Writes data to the file. The file will be created in the directory name same as app.
 	 * <p> Name of the file will be the timestamp.extension </p>
 	 *
 	 * @param extension
@@ -457,7 +457,7 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Writes data to the file. The file will be created in the folder name same as app.
+	 * Writes data to the file. The file will be created in the directory name same as app.
 	 * <p> Name of the file will be the timestamp.extension </p>
 	 *
 	 * @param parent
