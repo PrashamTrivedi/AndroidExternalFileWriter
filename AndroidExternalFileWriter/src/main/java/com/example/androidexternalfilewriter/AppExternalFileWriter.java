@@ -233,6 +233,33 @@ public class AppExternalFileWriter {
 	}
 
 	/**
+	 * Creates subdirectory in application folder
+	 *
+	 * @param parent
+	 * @param directoryName
+	 * 		name of subdirectory
+	 *
+	 * @return subdirectory file
+	 *
+	 * @throws ExternalFileWriterException
+	 * 		if external storage is not available
+	 */
+	public File createSubDirectory(File parent, String directoryName) throws
+			ExternalFileWriterException {
+		if (isExternalStorageAvailable(false)) {
+
+			getAppDirectory();
+
+			if (!parent.isDirectory())
+				throwException(parent.getName() + " Must be a directory ");
+
+			File subDirectory = new File(parent, directoryName);
+
+			return createDirectory(subDirectory);
+		} else return null;
+	}
+
+	/**
 	 * Get created app directory
 	 *
 	 * @return created app directory
