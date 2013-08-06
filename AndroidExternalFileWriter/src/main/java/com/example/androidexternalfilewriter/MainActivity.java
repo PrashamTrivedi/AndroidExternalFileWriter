@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import com.example.androidexternalfilewriter.AppExternalFileWriter.ExternalFileWriterException;
 import com.example.androidexternalfilewriter.R.string;
+import com.phtrivedi.opensource.externalfilewriter.AppExternalFileWriter;
+import com.phtrivedi.opensource.externalfilewriter.AppExternalFileWriter.ExternalFileWriterException;
 import java.io.File;
 
 public class MainActivity

@@ -69,6 +69,7 @@
     <orderEntry type="jdk" jdkName="Android 4.3 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="support-v4-13.0.0" level="project" />
+    <orderEntry type="library" exported="" name="AppExternalLibrary-1.0-SNAPSHOT" level="project" />
   </component>
 </module>
 

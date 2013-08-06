@@ -1,4 +1,4 @@
-package com.example.androidexternalfilewriter;
+package com.phtrivedi.opensource.externalfilewriter;
 
 import android.content.Context;
 import android.os.Environment;

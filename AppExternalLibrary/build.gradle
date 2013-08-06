@@ -6,24 +6,22 @@ buildscript {
         classpath 'com.android.tools.build:gradle:0.5.+'
     }
 }
-apply plugin: 'android'
+apply plugin: 'android-library'
 
 repositories {
     mavenCentral()
-    mavenLocal()
-}
-
-dependencies {
-    compile 'com.android.support:support-v4:13.0.+'
-    compile 'com.phtrivedi.opensource:AppExternalLibrary:1.0-SNAPSHOT'
 }
 
 android {
     compileSdkVersion 18
-    buildToolsVersion "18.0.0"
+    buildToolsVersion "18.0.1"
 
     defaultConfig {
         minSdkVersion 7
-        targetSdkVersion 16
+        targetSdkVersion 18
     }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:13.0.+'
 }

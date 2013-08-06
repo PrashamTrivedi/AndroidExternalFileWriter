@@ -56,11 +56,6 @@ public final class R {
 		 * Theme customizations available in newer API levels can go in
 		 * res/values-vXX/styles.xml, while customizations related to
 		 * backward-compatibility can go here.
-		 * <p/>
-		 * From: file:/home/indianic/AndroidStudioProjects/AndroidExternalFileWriterProject/AndroidExternalFileWriter/src/main/res/values-v11/styles.xml
-		 * API 11 theme customizations can go here.
-		 * From: file:/home/indianic/AndroidStudioProjects/AndroidExternalFileWriterProject/AndroidExternalFileWriter/src/main/res/values-v14/styles.xml
-		 * API 14 theme customizations can go here.
 		 */
 		public static final int AppBaseTheme = 0x7f060000;
 		/** All customizations that are NOT specific to a particular API-level can go here. */
