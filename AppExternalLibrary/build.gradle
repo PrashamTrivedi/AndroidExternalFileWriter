@@ -1,16 +1,16 @@
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            url 'https://raw.github.com/PrashamTrivedi/ark/master/releases/'
+        }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.5.+'
     }
 }
 apply plugin: 'android-library'
-
-repositories {
-    mavenCentral()
-}
 
 android {
     compileSdkVersion 18
@@ -25,3 +25,30 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:13.0.+'
 }
+
+apply plugin: 'maven-publish'
+group = 'com.phtrivedi.opensource'
+version = '1.0-SNAPSHOT'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            task sourceJar(type: Jar) {
+                from android.sourceSets.main.java
+                classifier "sources"
+            }
+
+            artifacts {
+                archives(sourceJar)
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "https://raw.github.com/PrashamTrivedi/ark/master/releases/"
+        }
+    }
+}
+
+
+

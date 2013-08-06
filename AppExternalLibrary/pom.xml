@@ -8,7 +8,11 @@
     <artifactId>AppExternalLibrary</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Maven Example</name>
+    <name>AppExtarnalFileWriter</name>
+
+    <description>A helper class to write files in external android storage, along with it's demo
+        application.
+    </description>
 
     <dependencies>
         <dependency>
