@@ -7,7 +7,7 @@ Class is separately located at https://gist.github.com/PrashamTrivedi/6121924
 
 Maven Availibility
 ==================
-This repository is also available with maven, in [artyfactory] (https://github.com/PrashamTrivedi/ArtyFactory)repository.
+This repository is also available with maven, in [artyfactory ] (https://github.com/PrashamTrivedi/ArtyFactory)repository.
 
 To add it in gradle file add this in your repositories.
 ```gradle
