@@ -35,8 +35,8 @@ How does it work
 5. If anything is wrong with external storage, like storage not mounted, corrupt,  shared as mass storage, not enough space available, or even trying to create a library already created. The class will throw ExternalFileWriterException with the message stating what happened.
 
 6. If you want to write a data in external cache memory do following.
-    6.1 Check the variants of all the methods where it asks for a boolean variable, if you pass true the file operation is done in external cache , otherwise it will be done in normal external memory.
-    6.2 If have already created a directory in cache memory get it from createDirectory method, and pass this directory to any method where a parent is required. These methods work same regardless of parent is in external memory or in cache memory.
+    * Check the variants of all the methods where it asks for a boolean variable, if you pass true the file operation is done in external cache , otherwise it will be done in normal external memory.
+    * If have already created a directory in cache memory get it from createDirectory method, and pass this directory to any method where a parent is required. These methods work same regardless of parent is in external memory or in cache memory.
 
 Description of Variants
 =========================
@@ -73,19 +73,21 @@ Writes data to desired file with timestamp with extension in other directory.
 ```java
 createSubDirectory(File parent, String directoryName)
 ```
-          Creates subdirectory in any other directory
+Creates subdirectory in any other directory
 ```java
 createSubDirectory(String directoryName,boolean inCache)
 ```
-          Creates subdirectory in application directory
+Creates subdirectory in application directory
           
-some other useful methods
+Some goodies
+=========================
 
-1. ```java  getAppDirectory()   ```
-          get File object of created app directory
-2. ```java  getExternalStorageDirectory()   ```
-          get File object of external storage directory
+1. ```getAppDirectory()``` : File object of created app directory
 
-Note for eclipse users
+2. ```getExternalStorageDirectory()``` : File object of external storage directory
+
+3. ```getExternalCacheDirectory()``` : File object of external cache directory
+
+Note for Eclipse users
 ======================
 1. There is another branch for you to check out, this branch is developed using android studio and you might face problem importing directly into eclipse.
