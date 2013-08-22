@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/home/indianic/AndroidStudioProjects/AndroidExternalFileWriterProject/AndroidExternalFileWriter/build/exploded-bundles/ComPhtrivediOpensourceAppExternalLibrary101SNAPSHOT.aar/res/values-v14/values.xml -->
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- API 14 theme customizations can go here. -->
+    </style>
+
+</resources>

@@ -1,0 +1,133 @@
+
+------------------------------------------------------------
+All tasks runnable from project :AndroidExternalFileWriter
+------------------------------------------------------------
+
+Android tasks
+-------------
+androidDependencies - Displays the Android dependencies of the project
+signingReport - Displays the signing info for each variant
+
+Build tasks
+-----------
+assemble - Assembles all variants of all applications and secondary packages. [assembleDebug, assembleRelease]
+assembleDebug - Assembles all Debug builds
+    compileDebug
+    compileDebugAidl
+    compileDebugRenderscript
+    dexDebug
+    generateDebugBuildConfig
+    mergeDebugAssets
+    mergeDebugResources
+    packageDebug
+    prepareDebugDependencies
+    processDebugJavaRes
+    processDebugManifest
+    processDebugResources
+    validateDebugSigning
+assembleRelease - Assembles all Release builds
+    compileRelease
+    compileReleaseAidl
+    compileReleaseRenderscript
+    dexRelease
+    generateReleaseBuildConfig
+    mergeReleaseAssets
+    mergeReleaseResources
+    packageRelease
+    prepareReleaseDependencies
+    processReleaseJavaRes
+    processReleaseManifest
+    processReleaseResources
+assembleTest - Assembles the Test build for the Debug build
+    compileDebug
+    compileDebugAidl
+    compileDebugRenderscript
+    compileTest
+    compileTestAidl
+    compileTestRenderscript
+    dexTest
+    generateDebugBuildConfig
+    generateTestBuildConfig
+    mergeDebugAssets
+    mergeDebugResources
+    mergeTestAssets
+    mergeTestResources
+    packageTest
+    prepareDebugDependencies
+    prepareTestDependencies
+    processDebugManifest
+    processDebugResources
+    processTestJavaRes
+    processTestResources
+    processTestTestManifest
+    validateDebugSigning
+build - Assembles and tests this project. [assemble, check]
+buildDependents - Assembles and tests this project and all projects that depend on it. [build]
+buildNeeded - Assembles and tests this project and all projects it depends on. [build]
+clean - Deletes the build directory.
+
+Help tasks
+----------
+dependencies - Displays all dependencies declared in project ':AndroidExternalFileWriter'.
+dependencyInsight - Displays the insight into a specific dependency in project ':AndroidExternalFileWriter'.
+help - Displays a help message
+projects - Displays the sub-projects of project ':AndroidExternalFileWriter'.
+properties - Displays the properties of project ':AndroidExternalFileWriter'.
+tasks - Displays the tasks runnable from project ':AndroidExternalFileWriter'.
+
+Install tasks
+-------------
+installDebug - Installs the Debug build
+    compileDebug
+    compileDebugAidl
+    compileDebugRenderscript
+    dexDebug
+    generateDebugBuildConfig
+    mergeDebugAssets
+    mergeDebugResources
+    packageDebug
+    prepareDebugDependencies
+    processDebugJavaRes
+    processDebugManifest
+    processDebugResources
+    validateDebugSigning
+installTest - Installs the Test build for the Debug build
+    compileDebug
+    compileDebugAidl
+    compileDebugRenderscript
+    compileTest
+    compileTestAidl
+    compileTestRenderscript
+    dexTest
+    generateDebugBuildConfig
+    generateTestBuildConfig
+    mergeDebugAssets
+    mergeDebugResources
+    mergeTestAssets
+    mergeTestResources
+    packageTest
+    prepareDebugDependencies
+    prepareTestDependencies
+    processDebugManifest
+    processDebugResources
+    processTestJavaRes
+    processTestResources
+    processTestTestManifest
+    validateDebugSigning
+uninstallAll - Uninstall all applications. [uninstallDebug, uninstallRelease, uninstallTest]
+uninstallDebug - Uninstalls the Debug build
+uninstallRelease - Uninstalls the Release build
+uninstallTest - Uninstalls the Test build for the Debug build
+
+Verification tasks
+------------------
+check - Runs all checks.
+connectedCheck - Runs all device checks on currently connected devices. [connectedInstrumentTest]
+connectedInstrumentTest - Installs and runs the tests for Build 'Debug' on connected devices. [assembleDebug, assembleTest]
+deviceCheck - Runs all device checks using Device Providers and Test Servers.
+
+Rules
+-----
+Pattern: build<ConfigurationName>: Assembles the artifacts of a configuration.
+Pattern: upload<ConfigurationName>: Assembles and uploads the artifacts belonging to a configuration.
+Pattern: clean<TaskName>: Cleans the output files of a task.

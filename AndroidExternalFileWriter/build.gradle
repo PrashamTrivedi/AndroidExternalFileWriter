@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
     compile 'com.android.support:support-v4:13.0.+'
-    compile 'com.phtrivedi.opensource:AppExternalLibrary:1.0-SNAPSHOT'
+    compile 'com.phtrivedi.opensource:AppExternalLibrary:1.0.1-SNAPSHOT'
 }
 
 android {
@@ -23,7 +23,7 @@ android {
     buildToolsVersion "18.0.0"
 
     defaultConfig {
-        minSdkVersion 7
-        targetSdkVersion 16
+        minSdkVersion 8
+        targetSdkVersion 18
     }
 }

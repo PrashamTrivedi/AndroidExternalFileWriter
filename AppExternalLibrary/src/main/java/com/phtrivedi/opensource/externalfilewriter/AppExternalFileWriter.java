@@ -155,7 +155,7 @@ public class AppExternalFileWriter {
 					} else {
 						String messege = directory + "should be a directory but found a file : Path " +
 						                 directory.getPath();
-
+						throwException(messege);
 					}
 
 				}

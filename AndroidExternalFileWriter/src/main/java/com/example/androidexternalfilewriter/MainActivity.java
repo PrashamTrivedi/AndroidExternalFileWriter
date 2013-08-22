@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ToggleButton;
+import com.example.androidexternalfilewriter.R.id;
 import com.example.androidexternalfilewriter.R.string;
 import com.phtrivedi.opensource.externalfilewriter.AppExternalFileWriter;
 import com.phtrivedi.opensource.externalfilewriter.AppExternalFileWriter.ExternalFileWriterException;
@@ -14,12 +16,14 @@ public class MainActivity
 
 	private AppExternalFileWriter writer;
 	private File testFolder;
+	private ToggleButton inCache;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		writer = new AppExternalFileWriter(this);
+		inCache = (ToggleButton) findViewById(id.toggleButton);
 	}
 
 	@Override
@@ -31,7 +35,7 @@ public class MainActivity
 
 	public void createSubFolderInAppFolder(View v) {
 		try {
-			testFolder = writer.createSubDirectory("test");
+			testFolder = writer.createSubDirectory("test", inCache.isChecked());
 		} catch (ExternalFileWriterException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -43,7 +47,7 @@ public class MainActivity
 
 		try {
 			if (testFolder == null) {
-				testFolder = writer.createSubDirectory("test");
+				testFolder = writer.createSubDirectory("test", inCache.isChecked());
 			}
 			writer.writeDataToFile(testFolder, "testFile", getString(string.loremipsum));
 		} catch (ExternalFileWriterException e) {
@@ -55,7 +59,7 @@ public class MainActivity
 
 	public void writeDataIntoTestFile(View v) {
 		try {
-			writer.writeDataToFile("testFile", getString(string.loremipsum));
+			writer.writeDataToFile("testFile", getString(string.loremipsum), inCache.isChecked());
 		} catch (ExternalFileWriterException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -65,7 +69,7 @@ public class MainActivity
 
 	public void writeTimeStampedFile(View v) {
 		try {
-			writer.writeDataToTimeStampedFile("txt", getString(string.loremipsum));
+			writer.writeDataToTimeStampedFile("txt", getString(string.loremipsum), inCache.isChecked());
 		} catch (ExternalFileWriterException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

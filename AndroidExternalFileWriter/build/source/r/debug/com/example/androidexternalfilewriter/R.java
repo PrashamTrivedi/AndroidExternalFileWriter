@@ -25,12 +25,13 @@ public final class R {
 	}
 
 	public static final class id {
-		public static final int action_settings = 0x7f080005;
+		public static final int action_settings = 0x7f080006;
 		public static final int button = 0x7f080001;
-		public static final int button2 = 0x7f080002;
-		public static final int button3 = 0x7f080003;
-		public static final int button4 = 0x7f080004;
+		public static final int button2 = 0x7f080003;
+		public static final int button3 = 0x7f080004;
+		public static final int button4 = 0x7f080005;
 		public static final int textView = 0x7f080000;
+		public static final int toggleButton = 0x7f080002;
 	}
 
 	public static final class layout {
@@ -42,7 +43,9 @@ public final class R {
 	}
 
 	public static final class string {
-		/** From: file:/home/indianic/AndroidStudioProjects/AndroidExternalFileWriterProject/AndroidExternalFileWriter/src/main/res/values/strings.xml */
+		/**
+		 * From: file:/home/indianic/AndroidStudioProjects/AndroidExternalFileWriterProject/AndroidExternalFileWriter/src/main/res/values/strings.xml
+		 */
 		public static final int action_settings = 0x7f050000;
 		public static final int app_name = 0x7f050001;
 		public static final int hello_world = 0x7f050002;
@@ -56,9 +59,16 @@ public final class R {
 		 * Theme customizations available in newer API levels can go in
 		 * res/values-vXX/styles.xml, while customizations related to
 		 * backward-compatibility can go here.
+		 * <p/>
+		 * From: file:/home/indianic/AndroidStudioProjects/AndroidExternalFileWriterProject/AndroidExternalFileWriter/build/exploded-bundles/ComPhtrivediOpensourceAppExternalLibrary101SNAPSHOT.aar/res/values-v11/values.xml
+		 * API 11 theme customizations can go here.
+		 * From: file:/home/indianic/AndroidStudioProjects/AndroidExternalFileWriterProject/AndroidExternalFileWriter/build/exploded-bundles/ComPhtrivediOpensourceAppExternalLibrary101SNAPSHOT.aar/res/values-v14/values.xml
+		 * API 14 theme customizations can go here.
 		 */
 		public static final int AppBaseTheme = 0x7f060000;
-		/** All customizations that are NOT specific to a particular API-level can go here. */
+		/**
+		 * All customizations that are NOT specific to a particular API-level can go here.
+		 */
 		public static final int AppTheme = 0x7f060001;
 	}
 }

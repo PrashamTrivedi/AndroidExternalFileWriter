@@ -17,14 +17,17 @@ How does it work
 
 5. If anything is wrong with external storage, like storage not mounted, corrupt,  shared as mass storage, not enough space available, or even trying to create a library already created. The class will throw ExternalFileWriterException with the message stating what happened.
 
+6. If you want to write a data in external cache memory do following.
+    6.1 Check the variants of all the methods where it asks for a boolean variable, if you pass true the file operation is done in external cache , otherwise it will be done in normal external memory.
+    6.2 If have already created a directory in cache memory get it from createDirectory method, and pass this directory to any method where a parent is required. These methods work same regardless of parent is in external memory or in cache memory.
 
 Description of Variants
 =========================
 
 1. writeDataToFile - Without parent directories
 ```java
-writeDataToFile(String fileName, byte[] data);
-writeDataToFile(String fileName, String data);
+writeDataToFile(String fileName, byte[] data,boolean inCache);
+writeDataToFile(String fileName, String data,boolean inCache);
 ```
 Writes data to desired file in Application directory.
           
@@ -37,8 +40,8 @@ Writes data to desired file in other directory.
           
 3. writeDataToTimeStampedFile variants - Without parent directories
 ```java
-writeDataToTimeStampedFile(String extension, byte[] data)
-writeDataToTimeStampedFile(String extension, String data)
+writeDataToTimeStampedFile(String extension, byte[] data,boolean inCache)
+writeDataToTimeStampedFile(String extension, String data,boolean inCache)
 ```
 Writes data to desired file with timestamp with extension in Application directory.
           
@@ -53,11 +56,11 @@ Writes data to desired file with timestamp with extension in other directory.
 ```java
 createSubDirectory(File parent, String directoryName)
 ```
-          Creates subdirectory in application directory
-```java
-createSubDirectory(String directoryName)
-```
           Creates subdirectory in any other directory
+```java
+createSubDirectory(String directoryName,boolean inCache)
+```
+          Creates subdirectory in application directory
           
 some other useful methods
 
