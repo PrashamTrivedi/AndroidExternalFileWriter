@@ -12,12 +12,16 @@ buildscript {
 }
 apply plugin: 'android-library'
 
+
+
 android {
+
+
     compileSdkVersion 18
     buildToolsVersion "18.0.1"
 
     defaultConfig {
-        minSdkVersion 7
+        minSdkVersion 8
         targetSdkVersion 18
     }
 }
@@ -25,30 +29,55 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:13.0.+'
 }
+//
+//task helpTask(description: 'help task to debug some things') << {
+//    String home = System.getenv('HOME')
+//    println("test URL file://" + home + "/libraries/")
+//}
+
 
 apply plugin: 'maven-publish'
+
 group = 'com.phtrivedi.opensource'
-version = '1.0-SNAPSHOT'
+version = '1.0.1-SNAPSHOT'
 
+
+android.libraryVariants
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            task sourceJar(type: Jar) {
-                from android.sourceSets.main.java
-                classifier "sources"
-            }
 
-            artifacts {
-                archives(sourceJar)
+    publications {
+        mavenTest(MavenPublication) {
+            artifact {
+                String libsPathString = file(buildDir).absolutePath + '/libs'
+                String libsPath = file(libsPathString)
+                FileTree tree = fileTree(dir: libsPath, include: '**/*.aar')
+
+                tree.singleFile
             }
         }
+
     }
     repositories {
         maven {
-            url "https://raw.github.com/PrashamTrivedi/ark/master/releases/"
+
+//            String versionName = version
+//            String path = 'releases';
+//            if(versionName.contains("SNAPSHOT")){
+//                path = 'snapshots'
+//            }
+//
+//            println(path)
+//            String home = System.getenv('HOME')
+//
+//            url "file://" + home + "/libraries/ark/"+path
+            mavenLocal()
         }
     }
+
+
 }
+
+publishToMavenLocal.dependsOn assembleDebug
 
 
 

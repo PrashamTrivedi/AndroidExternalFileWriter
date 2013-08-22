@@ -19,9 +19,10 @@ public class AppExternalFileWriter {
 	private static final String canNotWriteFile = "Can not write file: ";
 	private static final String canNotCreatedirectory = "Can not create directory: ";
 	private final File externalStorageDirectory;
+	private final File externalCacheDirectory;
 	private Context context;
 	private File appDirectory;
-
+	private File appCacheDirectory;
 
 	/**
 	 * Creates external file writer
@@ -32,11 +33,12 @@ public class AppExternalFileWriter {
 	public AppExternalFileWriter(Context context) {
 		this.context = context;
 		externalStorageDirectory = Environment.getExternalStorageDirectory();
+		externalCacheDirectory = context.getExternalCacheDir();
 
 	}
 
-	private File createFile(String fileName) throws ExternalFileWriterException {
-		return createFile(fileName, this.appDirectory);
+	private File createFile(String fileName, boolean inCache) throws ExternalFileWriterException {
+		return createFile(fileName, getAppDirectory(inCache));
 	}
 
 	/**
@@ -88,6 +90,11 @@ public class AppExternalFileWriter {
 			appDirectory = new File(Environment.getExternalStorageDirectory()
 			                                   .toString(), directoryName);
 			createDirectory(appDirectory);
+
+
+			appCacheDirectory = new File(externalCacheDirectory, directoryName);
+			createDirectory(appCacheDirectory);
+
 		}
 
 	}
@@ -210,6 +217,10 @@ public class AppExternalFileWriter {
 		}
 	}
 
+	private File getAppDirectory(boolean inCache) {
+		return (inCache) ? this.appCacheDirectory : this.appDirectory;
+	}
+
 	/**
 	 * Creates subdirectory in application directory
 	 *
@@ -221,12 +232,13 @@ public class AppExternalFileWriter {
 	 * @throws ExternalFileWriterException
 	 * 		if external storage is not available
 	 */
-	public File createSubDirectory(String directoryName) throws ExternalFileWriterException {
+	public File createSubDirectory(String directoryName, boolean inCache) throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(false)) {
 
 			getAppDirectory();
 
-			File subDirectory = new File(this.appDirectory, directoryName);
+
+			File subDirectory = new File(getAppDirectory(inCache), directoryName);
 
 			return createDirectory(subDirectory);
 		} else return null;
@@ -269,6 +281,10 @@ public class AppExternalFileWriter {
 			createAppDirectory();
 		}
 		return appDirectory;
+	}
+
+	public File getExternalCacheDirectory() {
+		return externalCacheDirectory;
 	}
 
 	/**
@@ -317,11 +333,11 @@ public class AppExternalFileWriter {
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
-	public void writeDataToFile(String fileName, String data) throws ExternalFileWriterException {
+	public void writeDataToFile(String fileName, String data, boolean inCache) throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(true)) {
 			getAppDirectory();
 
-			File file = createFile(fileName);
+			File file = createFile(fileName, inCache);
 
 			writeDataToFile(file, data);
 		}
@@ -339,11 +355,11 @@ public class AppExternalFileWriter {
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
-	public void writeDataToFile(String fileName, byte[] data) throws ExternalFileWriterException {
+	public void writeDataToFile(String fileName, byte[] data, boolean inCache) throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(true)) {
 			getAppDirectory();
 
-			File file = createFile(fileName);
+			File file = createFile(fileName, inCache);
 
 			writeDataToFile(file, data);
 		}
@@ -377,24 +393,26 @@ public class AppExternalFileWriter {
 	 * Writes data to the file. The file will be created in the directory name same as app.
 	 * <p> Name of the file will be the timestamp.extension </p>
 	 *
+	 *
 	 * @param extension
 	 * 		extension of the file, pass null if you don't want to have extension.
 	 * @param data
 	 * 		data to write
 	 *
+	 * @param inCache
 	 * @throws ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
-	public void writeDataToTimeStampedFile(String extension, String data) throws
-			ExternalFileWriterException {
+	public void writeDataToTimeStampedFile(String extension, String data, boolean inCache) throws
+	ExternalFileWriterException {
 		if (isExternalStorageAvailable(true)) {
 			getAppDirectory();
 
 			String fileExtension = (TextUtils.isEmpty(extension)) ? "" : "." + extension;
 			String fileName = System.currentTimeMillis() + fileExtension;
 
-			File file = createFile(fileName, this.appDirectory);
+			File file = createFile(fileName, getAppDirectory(inCache));
 
 			writeDataToFile(file, data);
 		}
@@ -442,15 +460,15 @@ public class AppExternalFileWriter {
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
-	public void writeDataToTimeStampedFile(String extension, byte[] data) throws
-			ExternalFileWriterException {
+	public void writeDataToTimeStampedFile(String extension, byte[] data, boolean inCache) throws
+	ExternalFileWriterException {
 		if (isExternalStorageAvailable(true)) {
 			getAppDirectory();
 
 			String fileExtension = (TextUtils.isEmpty(extension)) ? "" : "." + extension;
 			String fileName = System.currentTimeMillis() + fileExtension;
 
-			File file = createFile(fileName, this.appDirectory);
+			File file = createFile(fileName, getAppDirectory(inCache));
 
 			writeDataToFile(file, data);
 		}
