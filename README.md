@@ -5,6 +5,23 @@ A helper class to write files in external android storage, along with it's demo 
 
 Class is separately located at https://gist.github.com/PrashamTrivedi/6121924
 
+Maven Availibility
+==================
+This repository is also available with maven, in (artifactory) [https://github.com/PrashamTrivedi/ArtyFactory] repository.
+
+To add it in gradle file add this in your repositories.
+```gradle
+  maven {
+            url 'https://github.com/PrashamTrivedi/ArtyFactory/raw/master/snapshots'
+            //THIS IS TO GET SNAPSHOTS TO GET RELEASES (IN FUTURE) ADD/REPLACE IT WITH
+            //url 'https://github.com/PrashamTrivedi/ArtyFactory/raw/master/releases'
+  }
+```
+The maven credentials (groupId:artifactId:verison) are
+```
+com.phtrivedi.opensource:AppExternalLibrary:1.0.1-SNAPSHOT
+```
+
 How does it work
 =========================
 1. Create AppExternalFileWriter object with passing context to it.

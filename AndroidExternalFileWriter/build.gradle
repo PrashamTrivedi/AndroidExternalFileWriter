@@ -1,6 +1,11 @@
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            url 'https://github.com/PrashamTrivedi/ArtyFactory/raw/master/snapshots'
+            //THIS IS TO GET SNAPSHOTS TO GET RELEASES (IN FUTURE) ADD/REPLACE IT WITH
+            //url 'https://github.com/PrashamTrivedi/ArtyFactory/raw/master/releases'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.5.+'
@@ -10,7 +15,11 @@ apply plugin: 'android'
 
 repositories {
     mavenCentral()
-    mavenLocal()
+    maven {
+        url 'https://github.com/PrashamTrivedi/ArtyFactory/raw/master/snapshots'
+        //THIS IS TO GET SNAPSHOTS TO GET RELEASES (IN FUTURE) ADD/REPLACE IT WITH
+        //url 'https://github.com/PrashamTrivedi/ArtyFactory/raw/master/releases'
+    }
 }
 
 dependencies {

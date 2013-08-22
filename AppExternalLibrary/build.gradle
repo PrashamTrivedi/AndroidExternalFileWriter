@@ -1,9 +1,6 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven {
-            url 'https://raw.github.com/PrashamTrivedi/ark/master/releases/'
-        }
 
     }
     dependencies {
@@ -60,17 +57,17 @@ publishing {
     repositories {
         maven {
 
-//            String versionName = version
-//            String path = 'releases';
-//            if(versionName.contains("SNAPSHOT")){
-//                path = 'snapshots'
-//            }
-//
-//            println(path)
-//            String home = System.getenv('HOME')
-//
-//            url "file://" + home + "/libraries/ark/"+path
-            mavenLocal()
+            String versionName = version
+            String path = 'releases';
+            if (versionName.contains("SNAPSHOT")) {
+                path = 'snapshots'
+            }
+
+            println(path)
+            String home = System.getenv('HOME')
+
+            url "file://" + home + "/libraries/artyfactory/" + path
+//            mavenLocal()
         }
     }
 
