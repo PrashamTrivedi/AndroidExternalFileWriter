@@ -17,7 +17,7 @@ import java.io.IOException;
 public class AppExternalFileWriter {
 
 	private static final String canNotWriteFile = "Can not write file: ";
-	private static final String canNotCreatedirectory = "Can not create directory: ";
+	private static final String canNotCreateDirectory = "Can not create directory: ";
 	private final File externalStorageDirectory;
 	private final File externalCacheDirectory;
 	private Context context;
@@ -108,7 +108,7 @@ public class AppExternalFileWriter {
 	}
 
 	private boolean isExternalStorageAvailable(boolean isForFile) throws ExternalFileWriterException {
-		String errorStarter = (isForFile) ? canNotWriteFile : canNotCreatedirectory;
+		String errorStarter = (isForFile) ? canNotWriteFile : canNotCreateDirectory;
 
 		String storageState = Environment.getExternalStorageState();
 
