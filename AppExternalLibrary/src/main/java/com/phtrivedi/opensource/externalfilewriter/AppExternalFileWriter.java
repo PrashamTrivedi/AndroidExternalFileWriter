@@ -142,7 +142,7 @@ public class AppExternalFileWriter {
 
 	private File createDirectory(File directory) throws ExternalFileWriterException {
 		if (!directory.exists() || !directory.isDirectory()) {
-			if (directory.mkdir()) {
+			if (directory.mkdirs()) {
 				String messege = "directory " + directory + " created : Path "
 				                 + directory.getPath();
 
