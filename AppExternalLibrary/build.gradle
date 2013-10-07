@@ -1,7 +1,9 @@
 buildscript {
     repositories {
         mavenCentral()
-
+//        maven{
+//            url 'http://github.com/PrashamTrivedi/ArtyFactory/snapshots'
+//        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.5.+'
@@ -27,11 +29,31 @@ dependencies {
     compile 'com.android.support:support-v4:13.0.+'
 }
 //
-//task helpTask(description: 'help task to debug some things') << {
-//    String home = System.getenv('HOME')
-//    println("test URL file://" + home + "/libraries/")
-//}
+task helpTask(description: 'help task to debug some things') << {
+    libsPathString = file(buildDir).absolutePath + '/libs'
+    libsPath = file(libsPathString)
+//    tree = fileTree(dir: libsPath, include: '**/*.aar')
+    tree = fileTree(dir: libsPath)
 
+    println "Following files have been found, Please select one"
+    List<String> list = new ArrayList<String>()
+
+    int i = 0;
+    tree.each { File file ->
+        String name = file.name
+        list.add(name)
+        println i + ". " + name
+        i++
+    }
+    choice = System.console().readLine()
+    if (console) {
+        choice = console.reader().read("time to enter your choice :  ".toCharArray())
+
+        pritnln "selected file " + list.get(choice);
+    } else {
+        println "error"
+    }
+}
 
 apply plugin: 'maven-publish'
 
@@ -45,10 +67,13 @@ publishing {
     publications {
         mavenTest(MavenPublication) {
             artifact {
-                String libsPathString = file(buildDir).absolutePath + '/libs'
-                String libsPath = file(libsPathString)
-                FileTree tree = fileTree(dir: libsPath, include: '**/*.aar')
+                libsPathString = file(buildDir).absolutePath + '/libs'
+                libsPath = file(libsPathString)
+                tree = fileTree(dir: libsPath, include: '**/*.aar')
 
+//                tree.each {File file ->
+//                    println file
+//                }
                 tree.singleFile
             }
         }
@@ -57,22 +82,23 @@ publishing {
     repositories {
         maven {
 
-            String versionName = version
-            String path = 'releases';
+            versionName = version
+            path = 'releases';
             if (versionName.contains("SNAPSHOT")) {
                 path = 'snapshots'
             }
 
             println(path)
-            String home = System.getenv('HOME')
+            home = System.getenv('HOME')
 
             url "file://" + home + "/libraries/artyfactory/" + path
-//            mavenLocal()
+            mavenLocal()
         }
     }
 
 
 }
+
 
 publishToMavenLocal.dependsOn assembleDebug
 

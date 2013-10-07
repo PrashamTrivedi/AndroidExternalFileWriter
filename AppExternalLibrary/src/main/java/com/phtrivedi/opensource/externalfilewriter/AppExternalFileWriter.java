@@ -11,8 +11,11 @@ import java.io.IOException;
 /**
  * @author Prasham Trivedi
  * @version 1.0
- *          <p>This class will create a directory having same name as your application. With all the states
- *          handled and reported back to developer.</p>
+ *          <p>
+ *          This class will create a directory having same name as your
+ *          application. With all the states handled and reported back to
+ *          developer.
+ *          </p>
  */
 public class AppExternalFileWriter {
 
@@ -87,10 +90,9 @@ public class AppExternalFileWriter {
 
 		if (isExternalStorageAvailable(false)) {
 
-			appDirectory = new File(Environment.getExternalStorageDirectory()
-			                                   .toString(), directoryName);
+			appDirectory = new File(Environment.getExternalStorageDirectory().toString(),
+			                        directoryName);
 			createDirectory(appDirectory);
-
 
 			appCacheDirectory = new File(externalCacheDirectory, directoryName);
 			createDirectory(appCacheDirectory);
@@ -101,13 +103,13 @@ public class AppExternalFileWriter {
 
 	private double getAvailableSpace() {
 		StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
-		double sdAvailSize = (double) stat.getAvailableBlocks()
-		                     * (double) stat.getBlockSize();
+		double sdAvailSize = (double) stat.getAvailableBlocks() * (double) stat.getBlockSize();
 
 		return sdAvailSize;
 	}
 
-	private boolean isExternalStorageAvailable(boolean isForFile) throws ExternalFileWriterException {
+	private boolean isExternalStorageAvailable(boolean isForFile)
+			throws ExternalFileWriterException {
 		String errorStarter = (isForFile) ? canNotWriteFile : canNotCreateDirectory;
 
 		String storageState = Environment.getExternalStorageState();
@@ -117,8 +119,8 @@ public class AppExternalFileWriter {
 		} else if (storageState.equals(Environment.MEDIA_BAD_REMOVAL)) {
 			throwException(errorStarter + "Media was removed before it was unmounted.");
 		} else if (storageState.equals(Environment.MEDIA_CHECKING)) {
-			throwException(errorStarter + "Media is present and being disk-checked, " +
-			               "Please wait and try after some time");
+			throwException(errorStarter + "Media is present and being disk-checked, "
+			               + "Please wait and try after some time");
 		} else if (storageState.equals(Environment.MEDIA_MOUNTED_READ_ONLY)) {
 			throwException(errorStarter + "Presented Media is read only");
 		} else if (storageState.equals(Environment.MEDIA_NOFS)) {
@@ -142,19 +144,20 @@ public class AppExternalFileWriter {
 
 	private File createDirectory(File directory) throws ExternalFileWriterException {
 		if (!directory.exists() || !directory.isDirectory()) {
-			if (directory.mkdir()) {
+			if (directory.mkdirs()) {
 				String messege = "directory " + directory + " created : Path "
 				                 + directory.getPath();
 
 			} else {
 				if (directory.exists()) {
 					if (directory.isDirectory()) {
-						String messege = "directory " + directory + " Already exists : Path " +
-						                 directory.getPath();
+						String messege = "directory " + directory + " Already exists : Path "
+						                 + directory.getPath();
 
 					} else {
-						String messege = directory + "should be a directory but found a file : Path " +
-						                 directory.getPath();
+						String messege = directory
+						                 + "should be a directory but found a file : Path "
+						                 + directory.getPath();
 						throwException(messege);
 					}
 
@@ -169,7 +172,8 @@ public class AppExternalFileWriter {
 	 *
 	 * @param file
 	 * @param data
-	 * 		String which you want to write a file. If size of this is greater than
+	 * 		String which you want to write a file. If size of this is
+	 * 		greater than
 	 * 		size available, it will show error.
 	 *
 	 * @File where you want to data, will show error if it's a directory.
@@ -184,7 +188,8 @@ public class AppExternalFileWriter {
 	 *
 	 * @param file
 	 * @param data
-	 * 		byte array which you want to write a file. If size of this is greater than
+	 * 		byte array which you want to write a file. If size of this is
+	 * 		greater than
 	 * 		size available, it will show error.
 	 *
 	 * @File where you want to data, will show error if it's a directory.
@@ -229,19 +234,20 @@ public class AppExternalFileWriter {
 	 *
 	 * @return subdirectory file
 	 *
-	 * @throws ExternalFileWriterException
+	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
 	 * 		if external storage is not available
 	 */
-	public File createSubDirectory(String directoryName, boolean inCache) throws ExternalFileWriterException {
+	public File createSubDirectory(String directoryName, boolean inCache)
+			throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(false)) {
 
 			getAppDirectory();
 
-
 			File subDirectory = new File(getAppDirectory(inCache), directoryName);
 
 			return createDirectory(subDirectory);
-		} else return null;
+		} else
+			return null;
 	}
 
 	/**
@@ -253,11 +259,11 @@ public class AppExternalFileWriter {
 	 *
 	 * @return subdirectory file
 	 *
-	 * @throws ExternalFileWriterException
+	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
 	 * 		if external storage is not available
 	 */
-	public File createSubDirectory(File parent, String directoryName) throws
-			ExternalFileWriterException {
+	public File createSubDirectory(File parent, String directoryName)
+			throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(false)) {
 
 			getAppDirectory();
@@ -268,7 +274,23 @@ public class AppExternalFileWriter {
 			File subDirectory = new File(parent, directoryName);
 
 			return createDirectory(subDirectory);
-		} else return null;
+		} else
+			return null;
+	}
+
+	public void deleteDirectory(File file) {
+		if (file.isDirectory())
+			for (File child : file.listFiles()) {
+
+				if (child.isDirectory())
+					deleteDirectory(child);
+				else
+					child.delete();
+			}
+
+		file.delete();
+
+//		return false;
 	}
 
 	/**
@@ -306,12 +328,12 @@ public class AppExternalFileWriter {
 	 * @param data
 	 * 		data
 	 *
-	 * @throws ExternalFileWriterException
+	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
-	public void writeDataToFile(File parent, String fileName,
-	                            byte[] data) throws ExternalFileWriterException {
+	public void writeDataToFile(File parent, String fileName, byte[] data)
+			throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(true)) {
 			getAppDirectory();
 
@@ -322,18 +344,20 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Writes data to the file. The file will be created in the directory name same as app.
+	 * Writes data to the file. The file will be created in the directory name
+	 * same as app.
 	 *
 	 * @param fileName
 	 * 		name of the file
 	 * @param data
 	 * 		data to write
 	 *
-	 * @throws ExternalFileWriterException
+	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
-	public void writeDataToFile(String fileName, String data, boolean inCache) throws ExternalFileWriterException {
+	public void writeDataToFile(String fileName, String data, boolean inCache)
+			throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(true)) {
 			getAppDirectory();
 
@@ -344,18 +368,20 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Writes data to the file. The file will be created in the directory name same as app.
+	 * Writes data to the file. The file will be created in the directory name
+	 * same as app.
 	 *
 	 * @param fileName
 	 * 		name of the file
 	 * @param data
 	 * 		data to write
 	 *
-	 * @throws ExternalFileWriterException
+	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
-	public void writeDataToFile(String fileName, byte[] data, boolean inCache) throws ExternalFileWriterException {
+	public void writeDataToFile(String fileName, byte[] data, boolean inCache)
+			throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(true)) {
 			getAppDirectory();
 
@@ -375,11 +401,12 @@ public class AppExternalFileWriter {
 	 * @param data
 	 * 		data
 	 *
-	 * @throws ExternalFileWriterException
+	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
-	public void writeDataToFile(File parent, String fileName, String data) throws ExternalFileWriterException {
+	public void writeDataToFile(File parent, String fileName, String data)
+			throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(true)) {
 			getAppDirectory();
 
@@ -390,22 +417,25 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Writes data to the file. The file will be created in the directory name same as app.
-	 * <p> Name of the file will be the timestamp.extension </p>
-	 *
+	 * Writes data to the file. The file will be created in the directory name
+	 * same as app.
+	 * <p>
+	 * Name of the file will be the timestamp.extension
+	 * </p>
 	 *
 	 * @param extension
-	 * 		extension of the file, pass null if you don't want to have extension.
+	 * 		extension of the file, pass null if you don't want to have
+	 * 		extension.
 	 * @param data
 	 * 		data to write
-	 *
 	 * @param inCache
-	 * @throws ExternalFileWriterException
+	 *
+	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
-	public void writeDataToTimeStampedFile(String extension, String data, boolean inCache) throws
-	ExternalFileWriterException {
+	public void writeDataToTimeStampedFile(String extension, String data, boolean inCache)
+			throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(true)) {
 			getAppDirectory();
 
@@ -419,22 +449,26 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Writes data to the file. The file will be created in the directory name same as app.
-	 * <p> Name of the file will be the timestamp.extension </p>
+	 * Writes data to the file. The file will be created in the directory name
+	 * same as app.
+	 * <p>
+	 * Name of the file will be the timestamp.extension
+	 * </p>
 	 *
 	 * @param parent
 	 * 		parent directory path
 	 * @param extension
-	 * 		extension of the file, pass null if you don't want to have extension.
+	 * 		extension of the file, pass null if you don't want to have
+	 * 		extension.
 	 * @param data
 	 * 		data to write
 	 *
-	 * @throws ExternalFileWriterException
+	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
-	public void writeDataToTimeStampedFile(File parent, String extension, String data) throws
-			ExternalFileWriterException {
+	public void writeDataToTimeStampedFile(File parent, String extension, String data)
+			throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(true)) {
 			getAppDirectory();
 
@@ -448,20 +482,24 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Writes data to the file. The file will be created in the directory name same as app.
-	 * <p> Name of the file will be the timestamp.extension </p>
+	 * Writes data to the file. The file will be created in the directory name
+	 * same as app.
+	 * <p>
+	 * Name of the file will be the timestamp.extension
+	 * </p>
 	 *
 	 * @param extension
-	 * 		extension of the file, pass null if you don't want to have extension.
+	 * 		extension of the file, pass null if you don't want to have
+	 * 		extension.
 	 * @param data
 	 * 		data to write
 	 *
-	 * @throws ExternalFileWriterException
+	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
-	public void writeDataToTimeStampedFile(String extension, byte[] data, boolean inCache) throws
-	ExternalFileWriterException {
+	public void writeDataToTimeStampedFile(String extension, byte[] data, boolean inCache)
+			throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(true)) {
 			getAppDirectory();
 
@@ -475,22 +513,26 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Writes data to the file. The file will be created in the directory name same as app.
-	 * <p> Name of the file will be the timestamp.extension </p>
+	 * Writes data to the file. The file will be created in the directory name
+	 * same as app.
+	 * <p>
+	 * Name of the file will be the timestamp.extension
+	 * </p>
 	 *
 	 * @param parent
 	 * 		parent directory path
 	 * @param extension
-	 * 		extension of the file, pass null if you don't want to have extension.
+	 * 		extension of the file, pass null if you don't want to have
+	 * 		extension.
 	 * @param data
 	 * 		data to write
 	 *
-	 * @throws ExternalFileWriterException
+	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
-	public void writeDataToTimeStampedFile(File parent, String extension, byte[] data) throws
-			ExternalFileWriterException {
+	public void writeDataToTimeStampedFile(File parent, String extension, byte[] data)
+			throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(true)) {
 			getAppDirectory();
 
@@ -504,7 +546,8 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Exception to report back developer about media state or storage state if writing is not
+	 * Exception to report back developer about media state or storage state if
+	 * writing is not
 	 * possible
 	 */
 	public class ExternalFileWriterException
