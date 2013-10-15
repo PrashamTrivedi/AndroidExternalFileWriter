@@ -259,7 +259,7 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Check whether directory with given name exists in parentDirectory or not.
+	 * Check whether file with given name exists in parentDirectory or not.
 	 *
 	 * @param fileName
 	 * 		: Name of the file to check.
@@ -274,7 +274,7 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Checks whether directory with given name exists in AppDirectory
+	 * Checks whether file with given name exists in AppDirectory
 	 *
 	 * @param fileName
 	 * 		: Name of the file to check.
