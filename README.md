@@ -10,6 +10,7 @@ Maven Availibility
 This repository is also available with maven, in [artyfactory ] (https://github.com/PrashamTrivedi/ArtyFactory)repository.
 
 To add it in gradle file add this in your repositories.
+
 ```gradle
   maven {
             url 'https://github.com/PrashamTrivedi/ArtyFactory/raw/master/snapshots'
@@ -18,6 +19,7 @@ To add it in gradle file add this in your repositories.
   }
 ```
 The maven credentials (groupId:artifactId:verison) are
+
 ```
 com.phtrivedi.opensource:AppExternalLibrary:1.0.1-SNAPSHOT
 ```
@@ -26,17 +28,22 @@ How does it work
 =========================
 1. Create AppExternalFileWriter object with passing context to it.
 
-2. use writeDataToFile or writeDataToTimeStampedFile variants as per your wish.
+2. Use writeDataToFile or writeDataToTimeStampedFile variants as per your wish.
 
 3. If you want to write a data where a file name should be a time stamp use writeDataToTimeStampedFile variants.
 
-4. If you want to create a subfolder use suitable createSubDirectory variants.
+4. If you want to create a subdirectory use suitable createSubDirectory variants.
 
 5. If anything is wrong with external storage, like storage not mounted, corrupt,  shared as mass storage, not enough space available, or even trying to create a library already created. The class will throw ExternalFileWriterException with the message stating what happened.
 
 6. If you want to write a data in external cache memory do following.
     * Check the variants of all the methods where it asks for a boolean variable, if you pass true the file operation is done in external cache , otherwise it will be done in normal external memory.
     * If have already created a directory in cache memory get it from createDirectory method, and pass this directory to any method where a parent is required. These methods work same regardless of parent is in external memory or in cache memory.
+
+7. Checks whether certain directory or file exists on certain location or not with help of isFileExists or isDirectoryExists variants
+
+8. Deletes entire directory with deleteDirectory method
+ (Note : This method only cares about removing entire directory with its subcontents, if you want to check whether directory is empty or not and use some error message, I recommend to use File.delete() method.)
 
 Description of Variants
 =========================
@@ -78,7 +85,33 @@ Creates subdirectory in any other directory
 createSubDirectory(String directoryName,boolean inCache)
 ```
 Creates subdirectory in application directory
-          
+
+6.isDirectoryExists variants
+```java
+isDirectoryExists(String directoryName, boolean checkInCache)
+```
+Checks whether directory with given name exists in AppDirectory Or Cache directory
+```java
+isDirectoryExists(String directoryName, File parentDirectory)
+```
+Checks whether directory with given name exists in parentDirectory or not.
+
+7. isFileExists variants
+```java
+isFileExists(String fileName, boolean checkInCache)
+```
+Checks whether file with given name exists in AppDirectory
+```java
+isFileExists(String fileName, File parentDirectory)
+```
+Check whether directory with given name exists in parentDirectory or not.
+
+8. Delete Directory
+```java
+deleteDirectory(File directory)
+```
+Deletes given directory with all its subdirectories and its files.
+
 Some goodies
 =========================
 
