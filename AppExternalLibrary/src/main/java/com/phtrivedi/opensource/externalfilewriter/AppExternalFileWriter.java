@@ -10,7 +10,7 @@ import java.io.IOException;
 
 /**
  * @author Prasham Trivedi
- * @version 1.0
+ * @version 2.5
  *          <p>
  *          This class will create a directory having same name as your
  *          application. With all the states handled and reported back to
@@ -104,7 +104,6 @@ public class AppExternalFileWriter {
 	private double getAvailableSpace() {
 		StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
 		double sdAvailSize = (double) stat.getAvailableBlocks() * (double) stat.getBlockSize();
-
 		return sdAvailSize;
 	}
 
@@ -171,12 +170,10 @@ public class AppExternalFileWriter {
 	 * Write byte array to file. Will show error if given file is a directory.
 	 *
 	 * @param file
+	 * 		: File where data is to be written.
 	 * @param data
 	 * 		String which you want to write a file. If size of this is
-	 * 		greater than
-	 * 		size available, it will show error.
-	 *
-	 * @File where you want to data, will show error if it's a directory.
+	 * 		greater than size available, it will show error.
 	 */
 	private void writeDataToFile(File file, String data) throws ExternalFileWriterException {
 		byte[] stringBuffer = data.getBytes();
@@ -187,12 +184,10 @@ public class AppExternalFileWriter {
 	 * Write byte array to file. Will show error if given file is a directory.
 	 *
 	 * @param file
+	 * 		: File where data is to be written.
 	 * @param data
 	 * 		byte array which you want to write a file. If size of this is
-	 * 		greater than
-	 * 		size available, it will show error.
-	 *
-	 * @File where you want to data, will show error if it's a directory.
+	 * 		greater than size available, it will show error.
 	 */
 	private void writeDataToFile(File file, byte[] data) throws ExternalFileWriterException {
 		if (isExternalStorageAvailable(true)) {
@@ -232,9 +227,9 @@ public class AppExternalFileWriter {
 	 * @param directoryName
 	 * 		name of subdirectory
 	 *
-	 * @return subdirectory file
+	 * @return File object of created subdirectory
 	 *
-	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
+	 * @throws ExternalFileWriterException
 	 * 		if external storage is not available
 	 */
 	public File createSubDirectory(String directoryName, boolean inCache)
@@ -251,15 +246,72 @@ public class AppExternalFileWriter {
 	}
 
 	/**
-	 * Creates subdirectory in application directory
+	 * Checks whether directory with given name exists in AppDirectory
+	 *
+	 * @param directoryName
+	 * 		: Name of the directory to check.
+	 *
+	 * @return true if a directory with "directoryName" exists, false otherwise
+	 */
+	public boolean isDirectoryExists(String directoryName, boolean checkInCache) {
+		File parentDirectory = (checkInCache) ? appCacheDirectory : appDirectory;
+		return isDirectoryExists(directoryName, parentDirectory);
+	}
+
+	/**
+	 * Check whether directory with given name exists in parentDirectory or not.
+	 *
+	 * @param fileName
+	 * 		: Name of the file to check.
+	 * @param parentDirectory
+	 * 		: Parent directory where directory with "fileName" should be present
+	 *
+	 * @return true if a file  with "fileName" exists, false otherwise
+	 */
+	public boolean isFileExists(String fileName, File parentDirectory) {
+		File directoryToCheck = new File(parentDirectory, fileName);
+		return directoryToCheck.exists() && directoryToCheck.isFile();
+	}
+
+	/**
+	 * Checks whether directory with given name exists in AppDirectory
+	 *
+	 * @param fileName
+	 * 		: Name of the file to check.
+	 *
+	 * @return true if a file with "directoryName" exists, false otherwise
+	 */
+	public boolean isFileExists(String fileName, boolean checkInCache) {
+		File parentDirectory = (checkInCache) ? appCacheDirectory : appDirectory;
+		return isFileExists(fileName, parentDirectory);
+	}
+
+	/**
+	 * Check whether directory with given name exists in parentDirectory or not.
+	 *
+	 * @param directoryName
+	 * 		: Name of the directory to check.
+	 * @param parentDirectory
+	 * 		: Parent directory where directory with "directoryName" should be present
+	 *
+	 * @return true if a directory with "directoryName" exists, false otherwise
+	 */
+	public boolean isDirectoryExists(String directoryName, File parentDirectory) {
+		File directoryToCheck = new File(parentDirectory, directoryName);
+		return directoryToCheck.exists() && directoryToCheck.isDirectory();
+	}
+
+	/**
+	 * Creates subdirectory in parent directory
 	 *
 	 * @param parent
+	 * 		: Parent directory where directory with "directoryName" should be created
 	 * @param directoryName
 	 * 		name of subdirectory
 	 *
-	 * @return subdirectory file
+	 * @return File object of created subdirectory
 	 *
-	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
+	 * @throws ExternalFileWriterException
 	 * 		if external storage is not available
 	 */
 	public File createSubDirectory(File parent, String directoryName)
@@ -278,25 +330,34 @@ public class AppExternalFileWriter {
 			return null;
 	}
 
-	public void deleteDirectory(File file) {
-		if (file.isDirectory())
-			for (File child : file.listFiles()) {
+	/**
+	 * Deletes given directory with all its subdirectories and its files.
+	 *
+	 * @param directory
+	 * 		: Directory to delete
+	 */
+	public void deleteDirectory(File directory) {
+		if (directory != null) {
+			if (directory.isDirectory())
+				for (File child : directory.listFiles()) {
 
-				if (child.isDirectory())
-					deleteDirectory(child);
-				else
-					child.delete();
-			}
+					if (child != null) {
+						if (child.isDirectory())
+							deleteDirectory(child);
+						else
+							child.delete();
+					}
+				}
 
-		file.delete();
-
+			directory.delete();
+		}
 //		return false;
 	}
 
 	/**
 	 * Get created app directory
 	 *
-	 * @return created app directory
+	 * @return File object of created AppDirectory
 	 */
 	public File getAppDirectory() throws ExternalFileWriterException {
 		if (appDirectory == null) {
@@ -305,6 +366,11 @@ public class AppExternalFileWriter {
 		return appDirectory;
 	}
 
+	/**
+	 * get External Cache directory
+	 *
+	 * @return File object of External Cache directory
+	 */
 	public File getExternalCacheDirectory() {
 		return externalCacheDirectory;
 	}
@@ -328,7 +394,7 @@ public class AppExternalFileWriter {
 	 * @param data
 	 * 		data
 	 *
-	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
+	 * @throws ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
@@ -352,7 +418,7 @@ public class AppExternalFileWriter {
 	 * @param data
 	 * 		data to write
 	 *
-	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
+	 * @throws ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
@@ -376,7 +442,7 @@ public class AppExternalFileWriter {
 	 * @param data
 	 * 		data to write
 	 *
-	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
+	 * @throws ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
@@ -401,7 +467,7 @@ public class AppExternalFileWriter {
 	 * @param data
 	 * 		data
 	 *
-	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
+	 * @throws ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
@@ -429,8 +495,9 @@ public class AppExternalFileWriter {
 	 * @param data
 	 * 		data to write
 	 * @param inCache
+	 * 		Pass true if you want to write data in External Cache. false if you want to write data in external directory.
 	 *
-	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
+	 * @throws ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
@@ -463,7 +530,7 @@ public class AppExternalFileWriter {
 	 * @param data
 	 * 		data to write
 	 *
-	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
+	 * @throws ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
@@ -494,7 +561,7 @@ public class AppExternalFileWriter {
 	 * @param data
 	 * 		data to write
 	 *
-	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
+	 * @throws ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
@@ -527,7 +594,7 @@ public class AppExternalFileWriter {
 	 * @param data
 	 * 		data to write
 	 *
-	 * @throws com.skylib.wrapper.AppExternalFileWriter.ExternalFileWriterException
+	 * @throws ExternalFileWriterException
 	 * 		if external storage is not available or free space is
 	 * 		less than size of the data
 	 */
@@ -552,11 +619,9 @@ public class AppExternalFileWriter {
 	 */
 	public class ExternalFileWriterException
 			extends Exception {
-		private String messege;
 
 		public ExternalFileWriterException(String messege) {
 			super(messege);
-			this.messege = messege;
 		}
 
 	}
