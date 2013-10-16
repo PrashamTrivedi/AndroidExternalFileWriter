@@ -86,7 +86,7 @@ createSubDirectory(String directoryName,boolean inCache)
 ```
 Creates subdirectory in application directory.
 
-6.isDirectoryExists variants
+6. isDirectoryExists variants
 ```java
 isDirectoryExists(String directoryName, boolean checkInCache)
 ```
@@ -96,7 +96,7 @@ isDirectoryExists(String directoryName, File parentDirectory)
 ```
 Checks whether directory with given name exists in parentDirectory or not.
 
-7.isFileExists variants
+7. isFileExists variants
 ```java
 isFileExists(String fileName, boolean checkInCache)
 ```
@@ -106,7 +106,7 @@ isFileExists(String fileName, File parentDirectory)
 ```
 Check whether directory with given name exists in parentDirectory or not.
 
-8.Delete Directory
+8. Delete Directory
 ```java
 deleteDirectory(File directory)
 ```
