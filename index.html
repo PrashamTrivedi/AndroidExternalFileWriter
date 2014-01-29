@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Androidexternalfilewriter by PrashamTrivedi</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Androidexternalfilewriter</h1>
+        <h2>A helper class to write files in external android storage, along with it&#39;s demo application.</h2>
+        <a href="https://github.com/PrashamTrivedi/AndroidExternalFileWriter" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="androidexternalfilewriter" class="anchor" href="#androidexternalfilewriter"><span class="octicon octicon-link"></span></a>AndroidExternalFileWriter</h1>
+
+<p>A helper class to write files in external android storage, along with it's demo application.</p>
+
+<p>Class is separately located at <a href="https://gist.github.com/PrashamTrivedi/6121924">https://gist.github.com/PrashamTrivedi/6121924</a></p>
+
+<h1>
+<a name="maven-availibility" class="anchor" href="#maven-availibility"><span class="octicon octicon-link"></span></a>Maven Availibility</h1>
+
+<p>This repository is also available with maven, in <a href="https://github.com/PrashamTrivedi/ArtyFactory">artyfactory </a>repository.</p>
+
+<p>To add it in gradle file add this in your repositories.</p>
+
+<pre lang="gradle"><code>  maven {
+            url 'https://github.com/PrashamTrivedi/ArtyFactory/raw/master/snapshots'
+            //THIS IS TO GET SNAPSHOTS TO GET RELEASES (IN FUTURE) ADD/REPLACE IT WITH
+            //url 'https://github.com/PrashamTrivedi/ArtyFactory/raw/master/releases'
+  }
+</code></pre>
+
+<p>The maven credentials (groupId:artifactId:verison) are</p>
+
+<pre><code>com.phtrivedi.opensource:AppExternalLibrary:1.0.1-SNAPSHOT
+</code></pre>
+
+<h1>
+<a name="how-does-it-work" class="anchor" href="#how-does-it-work"><span class="octicon octicon-link"></span></a>How does it work</h1>
+
+<ol>
+<li><p>Create AppExternalFileWriter object with passing context to it.</p></li>
+<li><p>Use writeDataToFile or writeDataToTimeStampedFile variants as per your wish.</p></li>
+<li><p>If you want to write a data where a file name should be a time stamp use writeDataToTimeStampedFile variants.</p></li>
+<li><p>If you want to create a subdirectory use suitable createSubDirectory variants.</p></li>
+<li><p>If anything is wrong with external storage, like storage not mounted, corrupt,  shared as mass storage, not enough space available, or even trying to create a library already created. The class will throw ExternalFileWriterException with the message stating what happened.</p></li>
+<li>
+<p>If you want to write a data in external cache memory do following.</p>
+
+<ul>
+<li>Check the variants of all the methods where it asks for a boolean variable, if you pass true the file operation is done in external cache , otherwise it will be done in normal external memory.</li>
+<li>If have already created a directory in cache memory get it from createDirectory method, and pass this directory to any method where a parent is required. These methods work same regardless of parent is in external memory or in cache memory.</li>
+</ul>
+</li>
+<li><p>Checks whether certain directory or file exists on certain location or not with help of isFileExists or isDirectoryExists variants</p></li>
+<li><p>Deletes entire directory with deleteDirectory method
+(Note : This method only cares about removing entire directory with its subcontents, if you want to check whether directory is empty or not and use some error message, I recommend to use File.delete() method.)</p></li>
+</ol><h1>
+<a name="description-of-variants" class="anchor" href="#description-of-variants"><span class="octicon octicon-link"></span></a>Description of Variants</h1>
+
+<ol>
+<li>writeDataToFile - Without parent directories</li>
+</ol><div class="highlight highlight-java"><pre><span class="n">writeDataToFile</span><span class="o">(</span><span class="n">String</span> <span class="n">fileName</span><span class="o">,</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">,</span><span class="kt">boolean</span> <span class="n">inCache</span><span class="o">);</span>
+<span class="n">writeDataToFile</span><span class="o">(</span><span class="n">String</span> <span class="n">fileName</span><span class="o">,</span> <span class="n">String</span> <span class="n">data</span><span class="o">,</span><span class="kt">boolean</span> <span class="n">inCache</span><span class="o">);</span>
+</pre></div>
+
+<p>Writes data to desired file in Application directory.</p>
+
+<ol>
+<li>writeDataToFile - With parent directories</li>
+</ol><div class="highlight highlight-java"><pre><span class="n">writeDataToFile</span><span class="o">(</span><span class="n">File</span> <span class="n">parent</span><span class="o">,</span> <span class="n">String</span> <span class="n">fileName</span><span class="o">,</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">);</span>
+<span class="n">writeDataToFile</span><span class="o">(</span><span class="n">File</span> <span class="n">parent</span><span class="o">,</span> <span class="n">String</span> <span class="n">fileName</span><span class="o">,</span> <span class="n">String</span> <span class="n">data</span><span class="o">);</span>
+</pre></div>
+
+<p>Writes data to desired file in other directory.</p>
+
+<ol>
+<li>writeDataToTimeStampedFile variants - Without parent directories</li>
+</ol><div class="highlight highlight-java"><pre><span class="n">writeDataToTimeStampedFile</span><span class="o">(</span><span class="n">String</span> <span class="n">extension</span><span class="o">,</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">,</span><span class="kt">boolean</span> <span class="n">inCache</span><span class="o">)</span>
+<span class="n">writeDataToTimeStampedFile</span><span class="o">(</span><span class="n">String</span> <span class="n">extension</span><span class="o">,</span> <span class="n">String</span> <span class="n">data</span><span class="o">,</span><span class="kt">boolean</span> <span class="n">inCache</span><span class="o">)</span>
+</pre></div>
+
+<p>Writes data to desired file with timestamp with extension in Application directory.</p>
+
+<ol>
+<li>writeDataToTimeStampedFile variants - With parent directories</li>
+</ol><div class="highlight highlight-java"><pre><span class="n">writeDataToTimeStampedFile</span><span class="o">(</span><span class="n">String</span> <span class="n">extension</span><span class="o">,</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">data</span><span class="o">)</span>
+<span class="n">writeDataToTimeStampedFile</span><span class="o">(</span><span class="n">String</span> <span class="n">extension</span><span class="o">,</span> <span class="n">String</span> <span class="n">data</span><span class="o">)</span>
+</pre></div>
+
+<p>Writes data to desired file with timestamp with extension in other directory.</p>
+
+<ol>
+<li>createSubDirectory variants</li>
+</ol><div class="highlight highlight-java"><pre><span class="n">createSubDirectory</span><span class="o">(</span><span class="n">File</span> <span class="n">parent</span><span class="o">,</span> <span class="n">String</span> <span class="n">directoryName</span><span class="o">)</span>
+</pre></div>
+
+<p>Creates subdirectory in any other directory</p>
+
+<div class="highlight highlight-java"><pre><span class="n">createSubDirectory</span><span class="o">(</span><span class="n">String</span> <span class="n">directoryName</span><span class="o">,</span><span class="kt">boolean</span> <span class="n">inCache</span><span class="o">)</span>
+</pre></div>
+
+<p>Creates subdirectory in application directory.</p>
+
+<ol>
+<li>isDirectoryExists variants</li>
+</ol><div class="highlight highlight-java"><pre><span class="n">isDirectoryExists</span><span class="o">(</span><span class="n">String</span> <span class="n">directoryName</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">checkInCache</span><span class="o">)</span>
+</pre></div>
+
+<p>Checks whether directory with given name exists in AppDirectory Or Cache directory</p>
+
+<div class="highlight highlight-java"><pre><span class="n">isDirectoryExists</span><span class="o">(</span><span class="n">String</span> <span class="n">directoryName</span><span class="o">,</span> <span class="n">File</span> <span class="n">parentDirectory</span><span class="o">)</span>
+</pre></div>
+
+<p>Checks whether directory with given name exists in parentDirectory or not.</p>
+
+<ol>
+<li>isFileExists variants</li>
+</ol><div class="highlight highlight-java"><pre><span class="n">isFileExists</span><span class="o">(</span><span class="n">String</span> <span class="n">fileName</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">checkInCache</span><span class="o">)</span>
+</pre></div>
+
+<p>Checks whether file with given name exists in AppDirectory</p>
+
+<div class="highlight highlight-java"><pre><span class="n">isFileExists</span><span class="o">(</span><span class="n">String</span> <span class="n">fileName</span><span class="o">,</span> <span class="n">File</span> <span class="n">parentDirectory</span><span class="o">)</span>
+</pre></div>
+
+<p>Check whether directory with given name exists in parentDirectory or not.</p>
+
+<ol>
+<li>Delete Directory</li>
+</ol><div class="highlight highlight-java"><pre><span class="n">deleteDirectory</span><span class="o">(</span><span class="n">File</span> <span class="n">directory</span><span class="o">)</span>
+</pre></div>
+
+<p>Deletes given directory with all its subdirectories and its files.</p>
+
+<h1>
+<a name="some-goodies" class="anchor" href="#some-goodies"><span class="octicon octicon-link"></span></a>Some goodies</h1>
+
+<ol>
+<li><p><code>getAppDirectory()</code> : File object of created app directory</p></li>
+<li><p><code>getExternalStorageDirectory()</code> : File object of external storage directory</p></li>
+<li><p><code>getExternalCacheDirectory()</code> : File object of external cache directory</p></li>
+</ol><h1>
+<a name="note-for-eclipse-users" class="anchor" href="#note-for-eclipse-users"><span class="octicon octicon-link"></span></a>Note for Eclipse users</h1>
+
+<ol>
+<li>There is another branch for you to check out, this branch is developed using android studio and you might face problem importing directly into eclipse.</li>
+</ol>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/PrashamTrivedi/AndroidExternalFileWriter/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/PrashamTrivedi/AndroidExternalFileWriter/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/PrashamTrivedi/AndroidExternalFileWriter"></a> is maintained by <a href="https://github.com/PrashamTrivedi">PrashamTrivedi</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
