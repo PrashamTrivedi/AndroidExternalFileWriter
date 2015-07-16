@@ -1,0 +1,106 @@
+buildscript {
+    repositories {
+        mavenCentral()
+//        maven{
+//            url 'http://github.com/PrashamTrivedi/ArtyFactory/snapshots'
+//        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.+'
+    }
+}
+apply plugin: 'android-library'
+
+
+
+android {
+
+
+    compileSdkVersion 18
+    buildToolsVersion "18.0.1"
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 18
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:13.0.+'
+}
+//
+task helpTask(description: 'help task to debug some things') << {
+    libsPathString = file(buildDir).absolutePath + '/libs'
+    libsPath = file(libsPathString)
+//    tree = fileTree(dir: libsPath, include: '**/*.aar')
+    tree = fileTree(dir: libsPath)
+
+    println "Following files have been found, Please select one"
+    List<String> list = new ArrayList<String>()
+
+    int i = 0;
+    tree.each { File file ->
+        String name = file.name
+        list.add(name)
+        println i + ". " + name
+        i++
+    }
+    choice = System.console().readLine()
+    if (console) {
+        choice = console.reader().read("time to enter your choice :  ".toCharArray())
+
+        pritnln "selected file " + list.get(choice);
+    } else {
+        println "error"
+    }
+}
+
+apply plugin: 'maven-publish'
+
+group = 'com.phtrivedi.opensource'
+version = '1.0.1-SNAPSHOT'
+
+
+android.libraryVariants
+publishing {
+
+    publications {
+        mavenTest(MavenPublication) {
+            artifact {
+                libsPathString = file(buildDir).absolutePath + '/libs'
+                libsPath = file(libsPathString)
+                tree = fileTree(dir: libsPath, include: '**/*.aar')
+
+//                tree.each {File file ->
+//                    println file
+//                }
+                tree.singleFile
+            }
+        }
+
+    }
+    repositories {
+        maven {
+
+            versionName = version
+            path = 'releases';
+            if (versionName.contains("SNAPSHOT")) {
+                path = 'snapshots'
+            }
+
+            println(path)
+            home = System.getenv('HOME')
+
+            url "file://" + home + "/libraries/artyfactory/" + path
+            mavenLocal()
+        }
+    }
+
+
+}
+
+
+publishToMavenLocal.dependsOn assembleDebug
+
+
+

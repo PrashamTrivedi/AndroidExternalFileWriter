@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                tools:context=".MainActivity">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_world"
+            android:id="@+id/textView"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="create subfolder named test"
+            android:id="@+id/button"
+            android:onClick="createSubFolderInAppFolder"
+            android:layout_below="@+id/toggleButton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='write data into "testFile"'
+            android:id="@+id/button2"
+            android:onClick="writeDataIntoTestFile"
+            android:layout_below="@+id/button"
+            android:layout_alignLeft="@+id/button"
+            android:layout_alignRight="@+id/button"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='write data into "test/testFile"'
+            android:id="@+id/button3"
+            android:onClick="writeDataIntoSubFolder"
+            android:layout_below="@+id/button2"
+            android:layout_alignLeft="@+id/button2"
+            android:layout_alignRight="@+id/button2"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="write timestamped txt file"
+            android:id="@+id/button4"
+            android:onClick="writeTimeStampedFile"
+            android:layout_below="@+id/button3"
+            android:layout_alignLeft="@+id/button3"
+            android:layout_alignRight="@+id/button2"/>
+
+    <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="Use External Cache"
+            android:textOn="Use External Storage"
+            android:id="@+id/toggleButton"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/textView"
+            android:checked="false"/>
+
+
+</RelativeLayout>

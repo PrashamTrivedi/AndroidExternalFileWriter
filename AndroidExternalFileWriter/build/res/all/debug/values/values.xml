@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/home/indianic/AndroidStudioProjects/AndroidExternalFileWriterProject/AndroidExternalFileWriter/src/main/res/values/dimens.xml -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- From: file:/home/indianic/AndroidStudioProjects/AndroidExternalFileWriterProject/AndroidExternalFileWriter/src/main/res/values/strings.xml -->
+    <string name="action_settings">Settings</string>
+    <string name="app_name">AndroidExternalFileWriter</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="loremipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aliquam
+        nec eros ut feugiat. In hac habitasse platea dictumst. Vivamus hendrerit, augue sed
+        imperdiet sagittis, arcu quam tempus dolor, in consequat turpis tortor eget sapien. Cras
+        condimentum nibh nisi, eget blandit nulla iaculis laoreet. Morbi condimentum sit amet lectus
+        a commodo. Etiam accumsan adipiscing est, vel pellentesque massa ultricies at. Sed eget
+        fermentum nunc. Proin in molestie orci. Praesent feugiat fermentum orci in placerat. Quisque
+        gravida porttitor tellus condimentum porta. Phasellus tristique quam rhoncus, elementum
+        ligula vitae, cursus purus.
+
+        Maecenas a velit a dui viverra auctor. Sed at scelerisque diam, sit amet ornare massa.
+        Phasellus sit amet libero ante. Praesent leo risus, gravida id justo in, ultrices accumsan
+        tortor. Integer placerat erat sit amet feugiat eleifend. Mauris auctor egestas libero, eget
+        congue erat pretium quis. Integer aliquam tristique orci quis tempus. Integer non tincidunt
+        neque. Nunc nec adipiscing risus, in rutrum neque. Donec mollis ultricies enim vitae
+        vulputate. Nam accumsan, tellus nec luctus consequat, nunc leo laoreet nisl, eget congue mi
+        augue in nibh. Sed commodo, nulla non tempus tempor, lectus lacus interdum massa, in
+        accumsan massa nunc a tortor. Nam nulla urna, semper id ullamcorper in, tempor sed neque.
+        Praesent gravida ultricies augue, et bibendum velit tincidunt vel.
+
+        Duis at justo auctor sem convallis iaculis. Vestibulum suscipit nibh suscipit, fermentum
+        turpis non, vestibulum eros. Donec dui orci, interdum vitae nisi volutpat, porta ultricies
+        orci. Donec in nibh magna. Fusce magna nibh, facilisis ut porttitor nec, sollicitudin et
+        nunc. Proin at diam non ante aliquet ultrices a ullamcorper est. Donec malesuada dignissim
+        lectus ut aliquet. Donec pellentesque lorem ut lorem pretium, ac ultricies dui condimentum.
+        Proin sed sem nunc. Vivamus congue tellus ac enim vehicula eleifend. Pellentesque cursus
+        sollicitudin justo, in tincidunt metus facilisis et. Nunc vel congue leo. Donec in urna
+        egestas, tincidunt nibh ac, pretium diam. Mauris nec odio massa.
+
+        Morbi rhoncus lacus eget consequat suscipit. Vestibulum ultricies nunc sed scelerisque
+        varius. Proin ornare magna sit amet nibh euismod ultricies. Proin pharetra risus nunc, id
+        molestie nisi suscipit in. Quisque tempor orci placerat odio malesuada hendrerit. Proin eu
+        dapibus velit. Suspendisse imperdiet, lectus eu semper euismod, quam enim consequat nisi,
+        non rhoncus diam libero et urna. Vestibulum ornare nulla at porttitor posuere. Sed elementum
+        feugiat accumsan. Nam eu mauris sed leo tincidunt lacinia vitae at erat.
+
+        Praesent auctor mi vitae ligula scelerisque sodales. Etiam ac gravida nisl. Ut accumsan
+        lorem lobortis laoreet tempus. Sed placerat ut nibh ut viverra. Aliquam ullamcorper lacinia
+        ultrices. Morbi a arcu leo. Donec vitae scelerisque nisi, pharetra placerat neque. Maecenas
+        et nunc accumsan, faucibus purus eu, hendrerit neque. Vestibulum pharetra sem arcu, eu
+        eleifend sapien molestie quis. Cras venenatis vehicula ante, sit amet rhoncus leo sagittis
+        a. Quisque id nibh sed lectus congue euismod.
+    </string>
+    <!-- From: file:/home/indianic/AndroidStudioProjects/AndroidExternalFileWriterProject/AndroidExternalFileWriter/src/main/res/values/styles.xml -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+</resources>

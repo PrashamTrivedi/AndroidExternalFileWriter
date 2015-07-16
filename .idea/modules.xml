@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidExternalFileWriter/AndroidExternalFileWriter.iml" filepath="$PROJECT_DIR$/AndroidExternalFileWriter/AndroidExternalFileWriter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AndroidExternalFileWriterProject.iml" filepath="$PROJECT_DIR$/AndroidExternalFileWriterProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AppExternalLibrary/AppExternalLibrary.iml" filepath="$PROJECT_DIR$/AppExternalLibrary/AppExternalLibrary.iml" />
+    </modules>
+  </component>
+</project>
+

@@ -1,0 +1,38 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://github.com/PrashamTrivedi/ArtyFactory/raw/master/snapshots'
+            //THIS IS TO GET SNAPSHOTS TO GET RELEASES (IN FUTURE) ADD/REPLACE IT WITH
+            //url 'https://github.com/PrashamTrivedi/ArtyFactory/raw/master/releases'
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.+'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://github.com/PrashamTrivedi/ArtyFactory/raw/master/snapshots'
+        //THIS IS TO GET SNAPSHOTS TO GET RELEASES (IN FUTURE) ADD/REPLACE IT WITH
+        //url 'https://github.com/PrashamTrivedi/ArtyFactory/raw/master/releases'
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:13.0.+'
+    compile 'com.phtrivedi.opensource:AppExternalLibrary:1.0.1-SNAPSHOT'
+}
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "18.0.0"
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 18
+    }
+}
