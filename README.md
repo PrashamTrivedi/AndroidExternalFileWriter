@@ -13,7 +13,7 @@ Maven Availibility
 ==================
 This library is available in JCenter. In your gradle file enter
 ```groovy
-compile com.creativeelites:AndroidExternalFileWriter:1.2
+compile 'com.creativeelites:AndroidExternalFileWriter:1.2'
 ```
 How does it work
 =========================
