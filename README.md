@@ -3,16 +3,18 @@ AndroidExternalFileWriter
 
 [ ![Download](https://api.bintray.com/packages/prashamtrivedi/maven/AndroidExternalFileWriter/images/download.svg) ](https://bintray.com/prashamtrivedi/maven/AndroidExternalFileWriter/_latestVersion)
 
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidExternalFileWriter-blue.svg?style=flat)](http://android-arsenal.com/details/1/1796)
+
 A helper class to write files in external android storage, along with it's demo application.
 
 Class is separately located at https://gist.github.com/PrashamTrivedi/6121924
 
 Maven Availibility
 ==================
-This library will be available in JCenter soon, the credentials will be 
-
-`com.creativeelites:AndroidExternalFileWriter:1.2`
-
+This library is available in JCenter. In your gradle file enter
+```groovy
+compile com.creativeelites:AndroidExternalFileWriter:1.2
+```
 How does it work
 =========================
 1. Create AppExternalFileWriter object with passing context to it.
