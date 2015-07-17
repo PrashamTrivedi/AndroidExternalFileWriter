@@ -39,33 +39,30 @@ How does it work
 Description of Variants
 =========================
 
-- writeDataToFile - Without parent directories
-```java
-writeDataToFile(String fileName, byte[] data,boolean inCache);
-writeDataToFile(String fileName, String data,boolean inCache);
-```
-Writes data to desired file in Application directory.
+- writeDataToFile Variants 
+	- Without parent directories
+	```java
+	writeDataToFile(String fileName, byte[] data,boolean inCache);
+	writeDataToFile(String fileName, String data,boolean inCache);
+	```         
+	- With parent directories
+	```java
+	writeDataToFile(File parent, String fileName, byte[] data);
+	writeDataToFile(File parent, String fileName, String data);
+	```
+
           
-- writeDataToFile - With parent directories
-```java
-writeDataToFile(File parent, String fileName, byte[] data);
-writeDataToFile(File parent, String fileName, String data);
-```
-Writes data to desired file in other directory.
-          
-- writeDataToTimeStampedFile variants - Without parent directories
-```java
-writeDataToTimeStampedFile(String extension, byte[] data,boolean inCache)
-writeDataToTimeStampedFile(String extension, String data,boolean inCache)
-```
-Writes data to desired file with timestamp with extension in Application directory.
-          
-- writeDataToTimeStampedFile variants - With parent directories
-```java
-writeDataToTimeStampedFile(String extension, byte[] data)
-writeDataToTimeStampedFile(String extension, String data)
-```
-Writes data to desired file with timestamp with extension in other directory.
+- writeDataToTimeStampedFile variants 
+	- Without parent directories
+	```java
+	writeDataToTimeStampedFile(String extension, byte[] data,boolean inCache)
+	writeDataToTimeStampedFile(String extension, String data,boolean inCache)
+	```
+	- With parent directories
+	```java
+	writeDataToTimeStampedFile(String extension, byte[] data)
+	writeDataToTimeStampedFile(String extension, String data)
+	```
 
 - createSubDirectory variants
 
