@@ -11,10 +11,13 @@ Class is separately located at https://gist.github.com/PrashamTrivedi/6121924
 
 Maven Availibility
 ==================
-This library is available in JCenter. In your gradle file enter
+This library is available in JCenter(latest version is 1.4 which is in sync at the time of writing). In your gradle file enter
+
 ```groovy
-compile 'com.creativeelites:AndroidExternalFileWriter:1.2'
+compile 'com.creativeelites:androidexternalfilewriter:1.4'
 ```
+
+
 How does it work
 =========================
 1. Create AppExternalFileWriter object with passing context to it.
