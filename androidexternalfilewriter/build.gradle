@@ -1,8 +1,6 @@
 apply plugin: 'com.android.library'
-//D:\Codes\Libraries\JCenter
-apply from: 'D:\\Codes\\Libraries\\JCenter\\installv1.gradle'
-apply from: 'D:\\Codes\\Libraries\\JCenter\\bintrayv1.gradle'
-
+apply from: 'https://raw.githubusercontent.com/PrashamTrivedi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/PrashamTrivedi/JCenter/master/bintrayv1.gradle'
 android {
     compileSdkVersion 22
     buildToolsVersion "23.0.0 rc3"
