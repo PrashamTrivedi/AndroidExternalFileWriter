@@ -1,7 +1,7 @@
 AndroidExternalFileWriter
 =========================
 
-[ ![Download](https://api.bintray.com/packages/prashamtrivedi/maven/androidexternalfilewriter/images/download.svg) ](https://bintray.com/prashamtrivedi/maven/androidexternalfilewriter/_latestVersion)
+[![Download](https://api.bintray.com/packages/prashamtrivedi/maven/AndroidExternalFileWriter/images/download.svg)](https://bintray.com/prashamtrivedi/maven/AndroidExternalFileWriter/_latestVersion)
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidExternalFileWriter-blue.svg?style=flat)](http://android-arsenal.com/details/1/1796)
 
@@ -17,6 +17,9 @@ This library is available in JCenter(latest version is 1.4 which is in sync at t
 compile 'com.creativeelites:androidexternalfilewriter:1.4'
 ```
 
+Upcoming
+=========================
+We are preparing for storage access framework. Please check Releases page for progress.
 
 How does it work
 =========================
