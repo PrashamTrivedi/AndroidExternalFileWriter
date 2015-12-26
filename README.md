@@ -1,7 +1,7 @@
 AndroidExternalFileWriter
 =========================
 
-[ ![Download](https://api.bintray.com/packages/prashamtrivedi/maven/AndroidExternalFileWriter/images/download.svg) ](https://bintray.com/prashamtrivedi/maven/AndroidExternalFileWriter/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/prashamtrivedi/maven/androidexternalfilewriter/images/download.svg) ](https://bintray.com/prashamtrivedi/maven/androidexternalfilewriter/_latestVersion)
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidExternalFileWriter-blue.svg?style=flat)](http://android-arsenal.com/details/1/1796)
 
