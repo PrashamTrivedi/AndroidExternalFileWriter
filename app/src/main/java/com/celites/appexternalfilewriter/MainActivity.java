@@ -1,35 +1,21 @@
 package com.celites.appexternalfilewriter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ToggleButton;
 import com.celites.androidexternalfilewriter.AppExternalFileWriter;
-import com.celites.androidexternalfilewriter.AppExternalFileWriter.ExternalFileWriterException;
+import com.celites.androidexternalfilewriter.ExternalFileWriterException;
 import java.io.File;
 
 public class MainActivity
 		extends AppCompatActivity {
 
-	private AppExternalFileWriter writer;
-	private File testFolder;
 	private ToggleButton inCache;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		writer = new AppExternalFileWriter(this);
-		inCache = (ToggleButton) findViewById(R.id.toggleButton);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+	private File testFolder;
+	private AppExternalFileWriter writer;
 
 	public void createSubFolderInAppFolder(View v) {
 		try {
@@ -39,6 +25,13 @@ public class MainActivity
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
 	}
 
 	public void writeDataIntoSubFolder(View v) {
@@ -73,5 +66,19 @@ public class MainActivity
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		writer.handleResult(requestCode, resultCode, data);
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		writer = new AppExternalFileWriter(this, true);
+		inCache = (ToggleButton) findViewById(R.id.toggleButton);
 	}
 }
