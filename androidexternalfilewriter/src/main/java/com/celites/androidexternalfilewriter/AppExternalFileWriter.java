@@ -1,8 +1,10 @@
 package com.celites.androidexternalfilewriter;
+
 import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
 import android.text.TextUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,7 +38,6 @@ public class AppExternalFileWriter {
 		this.context = context;
 		externalStorageDirectory = Environment.getExternalStorageDirectory();
 		externalCacheDirectory = context.getExternalCacheDir();
-
 	}
 
 	private File createFile(String fileName, boolean inCache) throws ExternalFileWriterException {
