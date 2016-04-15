@@ -18,6 +18,9 @@ allprojects {
         maven {
             url "https://github.com/CreativeElites/MvnRepo/raw/master"
         }
+        maven {
+            url "https://dl.bintray.com/prashamtrivedi/maven"
+        }
         jcenter()
     }
 }

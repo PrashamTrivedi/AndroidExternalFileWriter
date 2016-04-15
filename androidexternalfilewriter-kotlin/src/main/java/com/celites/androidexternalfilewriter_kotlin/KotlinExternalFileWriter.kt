@@ -11,7 +11,7 @@ import java.io.IOException
 /**
  * Created by Prasham on 4/11/2016.
  */
-class KotlinExternalFileWriter {
+public class KotlinExternalFileWriter {
     lateinit var appDirectory: File
     lateinit var appCacheDirectory: File
 

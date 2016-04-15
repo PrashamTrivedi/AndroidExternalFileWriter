@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-
+apply from: 'https://raw.githubusercontent.com/PrashamTrivedi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/PrashamTrivedi/JCenter/master/bintrayv1.gradle'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"

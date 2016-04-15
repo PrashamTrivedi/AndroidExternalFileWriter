@@ -15,7 +15,7 @@ import java.io.IOException
 /**
  * Created by Prasham on 4/11/2016.
  */
-class KotlinStorageAccessFileWriter(activity: Activity, requestCode: Int) {
+public class KotlinStorageAccessFileWriter(activity: Activity, requestCode: Int) {
 
     private val PARENT_URI_KEY = "APP_EXTERNAL_PARENT_FILE_URI"
     lateinit var activity: Activity
