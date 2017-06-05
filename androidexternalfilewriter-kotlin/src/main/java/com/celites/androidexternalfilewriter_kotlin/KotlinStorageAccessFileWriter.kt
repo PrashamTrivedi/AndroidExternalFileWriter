@@ -1,13 +1,19 @@
 package com.celites.androidexternalfilewriter_kotlin
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
+import android.os.Build
 import android.preference.PreferenceManager
+import android.support.annotation.RequiresApi
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.provider.DocumentFile
 import android.text.TextUtils
 import com.celites.kutils.isEmptyString
+import com.celites.kutils.remove
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
@@ -15,10 +21,41 @@ import java.io.IOException
 /**
  * Created by Prasham on 4/11/2016.
  */
-public class KotlinStorageAccessFileWriter(activity: Activity, requestCode: Int) {
 
-    private val PARENT_URI_KEY = "APP_EXTERNAL_PARENT_FILE_URI"
-    lateinit var activity: Activity
+@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+public class KotlinStorageAccessFileWriter(requestCode: Int) {
+
+
+    public val PARENT_URI_KEY = "APP_EXTERNAL_PARENT_FILE_URI"
+    var activity: Activity? = null
+        set(value) {
+            value?.let {
+                field = value
+                context = value
+                initProcessWithActivity(requestCode, value)
+            }
+
+        }
+    var fragment: Fragment? = null
+        set(value) {
+            value?.let {
+                field = value
+                context = value.context as Context
+                initProcessWithFragment(requestCode, value)
+            }
+
+        }
+
+
+    public fun startWithContext(context: Context) {
+        this.context = context
+        val isExternaDirAvailable = isExternalDirAvailable()
+        if (isExternaDirAvailable) {
+            createAppDirectory()
+        }
+    }
+
+    lateinit var context: Context
     lateinit var appCacheDirectory: DocumentFile
     lateinit var appDirectory: DocumentFile
     lateinit var externalCacheDirectory: DocumentFile
@@ -28,17 +65,57 @@ public class KotlinStorageAccessFileWriter(activity: Activity, requestCode: Int)
     private val canNotCreateDirectory = "Can not create directory: "
     private val canNotWriteFile = "Can not write file: "
 
-    /**
-     * Inits new SAFFileWriter object, it will first check whether we already have a parent directory with proper uri access or not.
 
-     * @param activity:
-     * * 		Activity for context and starting request for OPEN_DOCUMENT_TREE
-     * *
-     * @param requestCode:
-     * * 		Request code to listen to OPEN_DOCUMENT_TREE
-     */
-    init {
-        val dirs = ContextCompat.getExternalCacheDirs(activity)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun initProcessWithActivity(requestCode: Int, activity: Activity) {
+        initCacheDirs()
+        preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val isExternaDirAvailable = isExternalDirAvailable()
+        if (!isExternaDirAvailable) {
+
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+            activity.startActivityForResult(intent, requestCode)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun initProcessWithFragment(requestCode: Int, fragment: Fragment) {
+        initCacheDirs()
+        preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val isExternaDirAvailable = isExternalDirAvailable()
+        if (!isExternaDirAvailable) {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+            fragment.startActivityForResult(intent, requestCode)
+        }
+    }
+
+    public fun checkIfExternalDirAvailable(context: Context): Boolean {
+        initCacheDirs()
+        preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val isExternaDirAvailable = isExternalDirAvailable()
+        return isExternaDirAvailable
+    }
+
+    fun isExternalDirAvailable(): Boolean {
+        initCacheDirs()
+        preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val externalDirUrl = preferences.getString(PARENT_URI_KEY, "")
+        val isExternalDirEmpty = externalDirUrl.isEmptyString()
+        if (!isExternalDirEmpty) {
+            externalParentFile = DocumentFile.fromTreeUri(context, Uri.parse(externalDirUrl))
+            try {
+                createAppDirectory()
+            } catch(e: Exception) {
+                preferences.remove(PARENT_URI_KEY)
+                return false
+            }
+        }
+        return !isExternalDirEmpty
+    }
+
+
+    private fun initCacheDirs() {
+        val dirs = ContextCompat.getExternalCacheDirs(context)
         if (dirs.size > 1) {
             val dir = dirs[1]
             if (dir != null) {
@@ -48,12 +125,6 @@ public class KotlinStorageAccessFileWriter(activity: Activity, requestCode: Int)
             }
         } else {
             externalCacheDirectory = DocumentFile.fromFile(dirs[0])
-        }
-        preferences = PreferenceManager.getDefaultSharedPreferences(activity)
-        val externalDirUrl = preferences.getString(PARENT_URI_KEY, "")
-        if (externalDirUrl.isEmptyString()) {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
-            activity.startActivityForResult(intent, requestCode)
         }
     }
 
@@ -102,11 +173,28 @@ public class KotlinStorageAccessFileWriter(activity: Activity, requestCode: Int)
         return file != null && file.isDirectory
     }
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    fun hasPermissions(file: DocumentFile): Boolean {
+        val persistedUriPermissions = context.getContentResolver().persistedUriPermissions
+        val filterForPermission = persistedUriPermissions.filter { it.uri == file.uri && it.isReadPermission && it.isWritePermission }
+        val hasPermissions = filterForPermission.isNotEmpty()
+        return hasPermissions
+    }
+
     /** Creates app directory  */
     private fun createAppDirectory() {
-        val directoryName = activity.getString(activity.applicationInfo.labelRes)
-        appDirectory = externalParentFile?.createDirectory(directoryName)
-        appCacheDirectory = externalCacheDirectory?.createDirectory(directoryName)
+        val directoryName = context.getString(context.applicationInfo.labelRes)
+        if (isDirectoryExists(directoryName, externalParentFile)) {
+            appDirectory = externalParentFile.findFile(directoryName)
+        } else {
+            appDirectory = externalParentFile.createDirectory(directoryName)
+        }
+        if (isDirectoryExists(directoryName, externalCacheDirectory)) {
+            appCacheDirectory = externalCacheDirectory.findFile(directoryName)
+        } else {
+            appCacheDirectory = externalCacheDirectory.createDirectory(directoryName)
+        }
+
     }
 
     /**
@@ -122,18 +210,19 @@ public class KotlinStorageAccessFileWriter(activity: Activity, requestCode: Int)
      * @throws ExternalFileWriterException
      * * 		if external storage is not available
      */
-    fun createSubdirectory(directoryName: String, inCache: Boolean): DocumentFile? {
+    fun createSubdirectory(directoryName: String, inCache: Boolean = false): DocumentFile? {
         getAppDirectory()
         val appDirectory = getAppDirectory(inCache)
         if (!isDirectoryExists(directoryName, inCache)) {
 
-            return appDirectory?.createDirectory(directoryName)
+            return appDirectory.createDirectory(directoryName)
         } else {
-            return appDirectory?.findFile(directoryName)
+            return appDirectory.findFile(directoryName)
         }
     }
 
     fun getAppDirectory(inCache: Boolean = false): DocumentFile {
+
         return if (inCache) appCacheDirectory else appDirectory
     }
 
@@ -153,16 +242,24 @@ public class KotlinStorageAccessFileWriter(activity: Activity, requestCode: Int)
 
     private fun getDocumentFile(displayName: String, inCache: Boolean): DocumentFile? {
         val appDirectory = getAppDirectory(inCache)
-        return appDirectory?.findFile(displayName)
+        return appDirectory.findFile(displayName)
     }
 
-    fun handleResult(requestCode: Int, resultCode: Int, data: Intent) {
+    fun handleResult(requestCode: Int, resultCode: Int, data: Intent?, handlingFinished: () -> Unit = {}, askForPersistableUriPermission: Boolean = true) {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == this.requestCode) {
-                val treeUri = data.data
-                externalParentFile = DocumentFile.fromTreeUri(activity, treeUri)
-                preferences.edit().putString(PARENT_URI_KEY, externalParentFile?.getUri().toString())
-                getAppDirectory()
+                data?.let {
+                    val treeUri = it.data
+                    if (askForPersistableUriPermission) {
+                        val takeFlags = it.flags and (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                        context.contentResolver.takePersistableUriPermission(treeUri, takeFlags)
+                    }
+                    externalParentFile = DocumentFile.fromTreeUri(context, treeUri)
+                    preferences.edit().putString(PARENT_URI_KEY, externalParentFile.getUri().toString()).apply()
+                    createAppDirectory()
+                    handlingFinished()
+                }
+
 
             }
         }
@@ -231,8 +328,8 @@ public class KotlinStorageAccessFileWriter(activity: Activity, requestCode: Int)
      */
     @Throws(FileNotFoundException::class)
     private fun writeDataToFile(file: DocumentFile, data: ByteArray) {
-        val fileDescriptor = activity.contentResolver.openFileDescriptor(file.uri, "w")
-        var out: FileOutputStream? = null
+        val fileDescriptor = context.contentResolver.openFileDescriptor(file.uri, "w")
+        val out: FileOutputStream?
         if (fileDescriptor != null) {
             out = FileOutputStream(fileDescriptor.fileDescriptor)
             try {
@@ -336,4 +433,18 @@ public class KotlinStorageAccessFileWriter(activity: Activity, requestCode: Int)
         return createFile(fileName, getAppDirectory(inCache), mimeType)
     }
 
+    public fun moveFile(file: DocumentFile, destinationDir: DocumentFile): Boolean {
+        copyFile(destinationDir, file)
+        return file.delete()
+    }
+
+    public fun KotlinStorageAccessFileWriter.copyFile(destinationDir: DocumentFile, file: DocumentFile) {
+        val bytesFromFile = getBytesFromFile(file)
+        writeDataToFile(destinationDir, file.name, bytesFromFile, file.type)
+    }
+
+    public fun getBytesFromFile(file: DocumentFile): ByteArray {
+        val inputStream = context.contentResolver.openInputStream(file.uri)
+        return inputStream.readBytes()
+    }
 }
