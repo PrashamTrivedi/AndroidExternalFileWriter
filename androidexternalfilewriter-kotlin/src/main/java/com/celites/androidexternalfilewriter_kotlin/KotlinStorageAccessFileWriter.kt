@@ -22,8 +22,8 @@ import java.io.IOException
  * Created by Prasham on 4/11/2016.
  */
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP) public class KotlinStorageAccessFileWriter(
-		val requestCode: Int) {
+@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+class KotlinStorageAccessFileWriter(private val requestCode: Int) {
 
 
 	public val PARENT_URI_KEY = "APP_EXTERNAL_PARENT_FILE_URI"
@@ -88,22 +88,16 @@ import java.io.IOException
 		}
 	}
 
-	public fun checkIfExternalDirAvailable(context: Context): Boolean {
-		initCacheDirs()
-		preferences = PreferenceManager.getDefaultSharedPreferences(context)
-		val isExternaDirAvailable = isExternalDirAvailable()
-		return isExternaDirAvailable
-	}
 
-	fun isExternalDirAvailable(): Boolean {
-		initCacheDirs()
+	fun isExternalDirAvailable(context: Context = this.context): Boolean {
+		initCacheDirs(context)
 		preferences = PreferenceManager.getDefaultSharedPreferences(context)
 		val externalDirUrl = preferences.getString(PARENT_URI_KEY, "")
 		val isExternalDirEmpty = externalDirUrl.isEmptyString()
 		if (!isExternalDirEmpty) {
 			externalParentFile = DocumentFile.fromTreeUri(context, Uri.parse(externalDirUrl))
 			try {
-				createAppDirectory()
+				createAppDirectory(context)
 			} catch (e: Exception) {
 				preferences.remove(PARENT_URI_KEY)
 				return false
@@ -113,7 +107,7 @@ import java.io.IOException
 	}
 
 
-	private fun initCacheDirs() {
+	private fun initCacheDirs(context: Context = this.context) {
 		val dirs = ContextCompat.getExternalCacheDirs(context)
 		externalCacheDirectory = if (dirs.size > 1) {
 			val dir = dirs[1]
@@ -180,7 +174,7 @@ import java.io.IOException
 	}
 
 	/** Creates app directory  */
-	private fun createAppDirectory() {
+	private fun createAppDirectory(context: Context = this.context) {
 		val directoryName = context.getString(context.applicationInfo.labelRes)
 		if (isDirectoryExists(directoryName, externalParentFile)) {
 			appDirectory = externalParentFile.findFile(directoryName)
@@ -409,37 +403,39 @@ import java.io.IOException
 
 	@Throws(FileNotFoundException::class)
 	fun writeDataToTimeStampedFile(mimeType: String, data: String, extension: String,
-								   inCache: Boolean, onFileWritten: (DocumentFile) -> Unit = {}) {
+								   filePrefix: String = "", inCache: Boolean,
+								   onFileWritten: (DocumentFile) -> Unit = {}) {
 		val appDir = getAppDirectory(inCache)
 		val fileExtension = if (TextUtils.isEmpty(extension)) "" else "." + extension
-		val fileName = "${System.currentTimeMillis()}$fileExtension"
+		val fileName = "$filePrefix${System.currentTimeMillis()}$fileExtension"
 		writeDataToFile(parent = appDir, fileName = fileName, data = data, mimeType = mimeType,
 				onFileWritten = onFileWritten)
 	}
 
 	@Throws(FileNotFoundException::class)
 	fun writeDataToTimeStampedFile(mimeType: String, data: ByteArray, extension: String,
-								   inCache: Boolean, onFileWritten: (DocumentFile) -> Unit) {
+								   filePrefix: String = "", inCache: Boolean,
+								   onFileWritten: (DocumentFile) -> Unit) {
 		val appDir = getAppDirectory(inCache)
 		val fileExtension = if (TextUtils.isEmpty(extension)) "" else "." + extension
-		val fileName = "${System.currentTimeMillis()}$fileExtension"
+		val fileName = "$filePrefix${System.currentTimeMillis()}$fileExtension"
 		writeDataToFile(parent = appDir, fileName = fileName, data = data, mimeType = mimeType,
 				onFileWritten = onFileWritten)
 	}
 
 	@Throws(FileNotFoundException::class)
 	fun writeDataToTimeStampedFile(mimeType: String, data: String, extension: String,
-								   inCache: Boolean, parent: DocumentFile,
+								   filePrefix: String = "", inCache: Boolean, parent: DocumentFile,
 								   onFileWritten: (DocumentFile) -> Unit = {}) {
 		val fileExtension = if (TextUtils.isEmpty(extension)) "" else "." + extension
-		val fileName = "${System.currentTimeMillis()}$fileExtension"
+		val fileName = "$filePrefix${System.currentTimeMillis()}$fileExtension"
 		writeDataToFile(parent = parent, fileName = fileName, data = data, mimeType = mimeType,
 				onFileWritten = onFileWritten)
 	}
 
 	@Throws(FileNotFoundException::class)
 	fun writeDataToTimeStampedFile(mimeType: String, data: ByteArray, extension: String,
-								   inCache: Boolean, parent: DocumentFile,
+								   filePrefix: String = "", inCache: Boolean, parent: DocumentFile,
 								   onFileWritten: (DocumentFile) -> Unit = {}) {
 		val fileExtension = if (TextUtils.isEmpty(extension)) "" else "." + extension
 		val fileName = "${System.currentTimeMillis()}$fileExtension"

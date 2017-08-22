@@ -453,7 +453,7 @@ public class KotlinExternalFileWriter {
 		if (storageState == Environment.MEDIA_MOUNTED) {
 			return true
 		} else if (storageState == Environment.MEDIA_BAD_REMOVAL) {
-			throwException(errorStarter + "Media was removed before it was unmounted.")
+			throwException("${errorStarter}Media was removed before it was unmounted.")
 		} else if (storageState == Environment.MEDIA_CHECKING) {
 			throwException(
 					errorStarter + "Media is present and being disk-checked, " + "Please wait and try after some time")
