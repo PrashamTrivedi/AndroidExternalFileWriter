@@ -47,8 +47,8 @@ public class KotlinExternalFileWriter {
 					val detailFile = File(parent, fileName)
 					if (!detailFile.exists()) detailFile.createNewFile()
 					else {
-						val messege = "File already there "
-						throwException(messege)
+						val message = "File already there "
+						throwException(message)
 					}
 					return detailFile
 				} else {
@@ -56,12 +56,12 @@ public class KotlinExternalFileWriter {
 				}
 			} catch (e: IOException) {
 				e.printStackTrace()
-				val errorMessege = "IOException " + e
-				throwException(errorMessege)
+				val errorMessage = "IOException $e"
+				throwException(errorMessage)
 			} catch (e: Exception) {
 				e.printStackTrace()
-				val errorMessege = "Exception " + e
-				throwException(errorMessege)
+				val errorMessage = "Exception $e"
+				throwException(errorMessage)
 			}
 
 		}
@@ -86,7 +86,7 @@ public class KotlinExternalFileWriter {
 	 */
 	@Throws(ExternalFileWriterException::class)
 	fun createSubDirectory(parent: File = appDirectory, directoryName: String): File? {
-		if (isExternalStorageAvailable(false)) {
+		return if (isExternalStorageAvailable(false)) {
 
 			getAppDirectory()
 
@@ -94,8 +94,8 @@ public class KotlinExternalFileWriter {
 
 			val subDirectory = File(parent, directoryName)
 
-			return createDirectory(subDirectory)
-		} else return null
+			createDirectory(subDirectory)
+		} else null
 	}
 
 	/**
@@ -450,25 +450,17 @@ public class KotlinExternalFileWriter {
 
 		val storageState = Environment.getExternalStorageState()
 
-		if (storageState == Environment.MEDIA_MOUNTED) {
-			return true
-		} else if (storageState == Environment.MEDIA_BAD_REMOVAL) {
-			throwException("${errorStarter}Media was removed before it was unmounted.")
-		} else if (storageState == Environment.MEDIA_CHECKING) {
-			throwException(
+		when (storageState) {
+			Environment.MEDIA_MOUNTED -> return true
+			Environment.MEDIA_BAD_REMOVAL -> throwException("${errorStarter}Media was removed before it was unmounted.")
+			Environment.MEDIA_CHECKING -> throwException(
 					errorStarter + "Media is present and being disk-checked, " + "Please wait and try after some time")
-		} else if (storageState == Environment.MEDIA_MOUNTED_READ_ONLY) {
-			throwException(errorStarter + "Presented Media is read only")
-		} else if (storageState == Environment.MEDIA_NOFS) {
-			throwException(errorStarter + "Blank or unsupported file media")
-		} else if (storageState == Environment.MEDIA_SHARED) {
-			throwException(errorStarter + "Media is shared with USB mass storage")
-		} else if (storageState == Environment.MEDIA_REMOVED) {
-			throwException(errorStarter + "Media is not present")
-		} else if (storageState == Environment.MEDIA_UNMOUNTABLE) {
-			throwException(errorStarter + "Media is present but cannot be mounted")
-		} else if (storageState == Environment.MEDIA_UNMOUNTED) {
-			throwException(errorStarter + "Media is present but not mounted")
+			Environment.MEDIA_MOUNTED_READ_ONLY -> throwException(errorStarter + "Presented Media is read only")
+			Environment.MEDIA_NOFS -> throwException(errorStarter + "Blank or unsupported file media")
+			Environment.MEDIA_SHARED -> throwException(errorStarter + "Media is shared with USB mass storage")
+			Environment.MEDIA_REMOVED -> throwException(errorStarter + "Media is not present")
+			Environment.MEDIA_UNMOUNTABLE -> throwException(errorStarter + "Media is present but cannot be mounted")
+			Environment.MEDIA_UNMOUNTED -> throwException(errorStarter + "Media is present but not mounted")
 		}
 
 		return false
@@ -483,5 +475,5 @@ public class KotlinExternalFileWriter {
 	 * writing is not
 	 * possible
 	 */
-	class ExternalFileWriterException(messege: String) : Exception(messege)
+	class ExternalFileWriterException(message: String) : Exception(message)
 }

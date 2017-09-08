@@ -49,8 +49,8 @@ class KotlinStorageAccessFileWriter(private val requestCode: Int) {
 
 	public fun startWithContext(context: Context) {
 		this.context = context
-		val isExternaDirAvailable = isExternalDirAvailable()
-		if (isExternaDirAvailable) {
+		val isExternalDirAvailable = isExternalDirAvailable()
+		if (isExternalDirAvailable) {
 			createAppDirectory()
 		}
 	}
@@ -69,8 +69,8 @@ class KotlinStorageAccessFileWriter(private val requestCode: Int) {
 																				   activity: Activity) {
 		initCacheDirs()
 		preferences = PreferenceManager.getDefaultSharedPreferences(context)
-		val isExternaDirAvailable = isExternalDirAvailable()
-		if (!isExternaDirAvailable) {
+		val isExternalDirAvailable = isExternalDirAvailable()
+		if (!isExternalDirAvailable) {
 
 			val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
 			activity.startActivityForResult(intent, requestCode)
@@ -81,8 +81,8 @@ class KotlinStorageAccessFileWriter(private val requestCode: Int) {
 																				   fragment: Fragment) {
 		initCacheDirs()
 		preferences = PreferenceManager.getDefaultSharedPreferences(context)
-		val isExternaDirAvailable = isExternalDirAvailable()
-		if (!isExternaDirAvailable) {
+		val isExternalDirAvailable = isExternalDirAvailable()
+		if (!isExternalDirAvailable) {
 			val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
 			fragment.startActivityForResult(intent, requestCode)
 		}
@@ -168,7 +168,7 @@ class KotlinStorageAccessFileWriter(private val requestCode: Int) {
 
 	@RequiresApi(Build.VERSION_CODES.KITKAT)
 	fun hasPermissions(file: DocumentFile): Boolean {
-		val persistedUriPermissions = context.getContentResolver().persistedUriPermissions
+		val persistedUriPermissions = context.contentResolver.persistedUriPermissions
 		val filterForPermission = persistedUriPermissions.filter { it.uri == file.uri && it.isReadPermission && it.isWritePermission }
 		return filterForPermission.isNotEmpty()
 	}
@@ -176,15 +176,15 @@ class KotlinStorageAccessFileWriter(private val requestCode: Int) {
 	/** Creates app directory  */
 	private fun createAppDirectory(context: Context = this.context) {
 		val directoryName = context.getString(context.applicationInfo.labelRes)
-		if (isDirectoryExists(directoryName, externalParentFile)) {
-			appDirectory = externalParentFile.findFile(directoryName)
+		appDirectory = if (isDirectoryExists(directoryName, externalParentFile)) {
+			externalParentFile.findFile(directoryName)
 		} else {
-			appDirectory = externalParentFile.createDirectory(directoryName)
+			externalParentFile.createDirectory(directoryName)
 		}
-		if (isDirectoryExists(directoryName, externalCacheDirectory)) {
-			appCacheDirectory = externalCacheDirectory.findFile(directoryName)
+		appCacheDirectory = if (isDirectoryExists(directoryName, externalCacheDirectory)) {
+			externalCacheDirectory.findFile(directoryName)
 		} else {
-			appCacheDirectory = externalCacheDirectory.createDirectory(directoryName)
+			externalCacheDirectory.createDirectory(directoryName)
 		}
 
 	}
@@ -249,8 +249,7 @@ class KotlinStorageAccessFileWriter(private val requestCode: Int) {
 						context.contentResolver.takePersistableUriPermission(treeUri, takeFlags)
 					}
 					externalParentFile = DocumentFile.fromTreeUri(context, treeUri)
-					preferences.edit().putString(PARENT_URI_KEY,
-							externalParentFile.getUri().toString()).apply()
+					preferences.edit().putString(PARENT_URI_KEY, externalParentFile.uri.toString()).apply()
 					createAppDirectory()
 					handlingFinished()
 				}
@@ -280,7 +279,6 @@ class KotlinStorageAccessFileWriter(private val requestCode: Int) {
 	@Throws(FileNotFoundException::class)
 	fun writeDataToFile(fileName: String, mimeType: String, data: ByteArray,
 						inCache: Boolean = false) {
-		getAppDirectory()
 		val appDir = getAppDirectory(inCache)
 		writeDataToFile(appDir, fileName, data, mimeType)
 	}
@@ -424,9 +422,8 @@ class KotlinStorageAccessFileWriter(private val requestCode: Int) {
 	}
 
 	@Throws(FileNotFoundException::class)
-	fun writeDataToTimeStampedFile(mimeType: String, data: String, extension: String,
-								   filePrefix: String = "", inCache: Boolean, parent: DocumentFile,
-								   onFileWritten: (DocumentFile) -> Unit = {}) {
+	fun writeDataToTimeStampedFile(mimeType: String, data: String, extension: String, filePrefix: String = "", parent: DocumentFile,
+	                               onFileWritten: (DocumentFile) -> Unit = {}) {
 		val fileExtension = if (TextUtils.isEmpty(extension)) "" else "." + extension
 		val fileName = "$filePrefix${System.currentTimeMillis()}$fileExtension"
 		writeDataToFile(parent = parent, fileName = fileName, data = data, mimeType = mimeType,
@@ -434,11 +431,10 @@ class KotlinStorageAccessFileWriter(private val requestCode: Int) {
 	}
 
 	@Throws(FileNotFoundException::class)
-	fun writeDataToTimeStampedFile(mimeType: String, data: ByteArray, extension: String,
-								   filePrefix: String = "", inCache: Boolean, parent: DocumentFile,
-								   onFileWritten: (DocumentFile) -> Unit = {}) {
+	fun writeDataToTimeStampedFile(mimeType: String, data: ByteArray, extension: String, filePrefix: String = "", parent: DocumentFile,
+	                               onFileWritten: (DocumentFile) -> Unit = {}) {
 		val fileExtension = if (TextUtils.isEmpty(extension)) "" else "." + extension
-		val fileName = "${System.currentTimeMillis()}$fileExtension"
+		val fileName = "$filePrefix${System.currentTimeMillis()}$fileExtension"
 		writeDataToFile(parent = parent, fileName = fileName, data = data, mimeType = mimeType,
 				onFileWritten = onFileWritten)
 	}
