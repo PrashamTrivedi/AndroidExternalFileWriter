@@ -19,15 +19,15 @@ public class KotlinExternalFileWriter {
 	/**
 	 * Created by Prasham on 4/6/2016.
 	 */
-	public fun Context.createAppDirectory() {
-		val directoryName = this.getString(this.getApplicationInfo().labelRes)
+	public fun createAppDirectory(context: Context) {
+		val directoryName = context.getString(context.applicationInfo.labelRes)
 
 		if (isExternalStorageAvailable(false)) {
 
 			appDirectory = File(Environment.getExternalStorageDirectory().toString(), directoryName)
 			createDirectory(appDirectory)
 
-			appCacheDirectory = File(this.externalCacheDir, directoryName)
+			appCacheDirectory = File(context.externalCacheDir, directoryName)
 			createDirectory(appCacheDirectory)
 
 		}
