@@ -249,7 +249,8 @@ class KotlinStorageAccessFileWriter(private val requestCode: Int) {
 						context.contentResolver.takePersistableUriPermission(treeUri, takeFlags)
 					}
 					externalParentFile = DocumentFile.fromTreeUri(context, treeUri)
-					preferences.edit().putString(PARENT_URI_KEY, externalParentFile.uri.toString()).apply()
+					preferences.edit().putString(PARENT_URI_KEY,
+							externalParentFile.uri.toString()).apply()
 					createAppDirectory()
 					handlingFinished()
 				}
@@ -422,8 +423,9 @@ class KotlinStorageAccessFileWriter(private val requestCode: Int) {
 	}
 
 	@Throws(FileNotFoundException::class)
-	fun writeDataToTimeStampedFile(mimeType: String, data: String, extension: String, filePrefix: String = "", parent: DocumentFile,
-	                               onFileWritten: (DocumentFile) -> Unit = {}) {
+	fun writeDataToTimeStampedFile(mimeType: String, data: String, extension: String,
+								   filePrefix: String = "", parent: DocumentFile,
+								   onFileWritten: (DocumentFile) -> Unit = {}) {
 		val fileExtension = if (TextUtils.isEmpty(extension)) "" else "." + extension
 		val fileName = "$filePrefix${System.currentTimeMillis()}$fileExtension"
 		writeDataToFile(parent = parent, fileName = fileName, data = data, mimeType = mimeType,
@@ -431,8 +433,9 @@ class KotlinStorageAccessFileWriter(private val requestCode: Int) {
 	}
 
 	@Throws(FileNotFoundException::class)
-	fun writeDataToTimeStampedFile(mimeType: String, data: ByteArray, extension: String, filePrefix: String = "", parent: DocumentFile,
-	                               onFileWritten: (DocumentFile) -> Unit = {}) {
+	fun writeDataToTimeStampedFile(mimeType: String, data: ByteArray, extension: String,
+								   filePrefix: String = "", parent: DocumentFile,
+								   onFileWritten: (DocumentFile) -> Unit = {}) {
 		val fileExtension = if (TextUtils.isEmpty(extension)) "" else "." + extension
 		val fileName = "$filePrefix${System.currentTimeMillis()}$fileExtension"
 		writeDataToFile(parent = parent, fileName = fileName, data = data, mimeType = mimeType,
